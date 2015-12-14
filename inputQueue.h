@@ -4,7 +4,8 @@
    ******************************************************************************************************
    Function: inputQueue header file
    ****************************************************************************************************** */
- 
+#include <stdlib.h>
+
 struct l2Packet    
 {
 
@@ -14,3 +15,9 @@ struct l2Packet
     struct l2Packet *ptr;
 
 }*front, *rear, *temp, *front2
+
+void enqueue(int data);
+void dequeue();
+void create();
+int queuesize();
+void display();

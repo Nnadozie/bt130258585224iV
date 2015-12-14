@@ -15,15 +15,15 @@
 /* ********************************
     Structure of the layer 2 packet
     ******************************* */
-struct l2Packet    
-{
+    struct l2Packet    
+    {
 
-    char srcAdrs;   //source address
-    char dstAdrs;   //destination address
-    char l2payload[L2MAXLOAD]; 
-    struct l2Packet *ptr;
+        char srcAdrs;   //source address
+        char dstAdrs;   //destination address
+        char l2payload[L2MAXLOAD]; 
+        struct l2Packet *ptr;
 
-}*front, *rear, *temp, *front2
+    }*front, *rear, *temp, *front2
 //end l2packet
 
 
@@ -31,10 +31,10 @@ struct l2Packet
 /*  ***************************
     create makes an empty queue
     *************************** */
-void create()
-{
-    front = rear = NULL;
-}
+    void create()
+    {
+        front = rear = NULL;
+    }
 //end create()
 
 
@@ -42,48 +42,121 @@ void create()
 /*  ***************************************************
     enqueue adds a new node to the bottom of the queue
     *************************************************** */
-void enqueue(char srcAdrs, char dstAdrs, char l2payload[])
-{
-
-    if (rear == NULL)
+    void enqueue(char srcAdrs, char dstAdrs, char l2payload[]) /* consider how you'll make these arguments into a single sturcture argument that can be passed in a go*/
     {
-        rear = (struct l2Packet *) malloc(sizeof(struct l2Packet));
-        rear->ptr = NULL;
-        rear->srcAdrs = srcAdrs;
-        rear->dstAdrs = dstAdrs;
-        rear->l2payload = l2Packet  /*  I don't think this will work due to how strings operate.
-                                        Find out how to use strCopy*/
-        front = rear;
-    }
-    else
-    {
-        temp = (struct l2Packet *) malloc(sizeof(struct l2Packet));
-        rear->ptr = temp;
-        temp->info = data;
-        temp->ptr =NULL;
 
-        rear = temp;
-    }
+        if (rear == NULL)
+        {
+            rear = (struct l2Packet *) malloc(sizeof(struct l2Packet));
+            rear->ptr = NULL;
+            rear->srcAdrs = srcAdrs;
+            rear->dstAdrs = dstAdrs;
+            rear->l2payload = l2Packet  /*  I don't think this will work due to how strings operate.
+                                            Find out how to use strCopy*/
+            front = rear;
+        }
+        else
+        {
+            temp = (struct l2Packet *) malloc(sizeof(struct l2Packet));
+            rear->ptr = temp;
+            temp->info = data;
+            temp->ptr =NULL;
 
-} 
+            rear = temp;
+        }
+
+    } 
 //end enqueue()
+
 
 
 /*  ************************************************
     dequeue removes a node from the top of the queue
     ************************************************ */
-void dequeue()
-{
-    front2 = front;
+    void dequeue() /* This will have to return the structure so that it can be queued later on in the main queue*/
 
-    if(front2 == NULL)
     {
-        printf("Do nothing because queue is empty\n");
-        return;
+
+        front2 = front;
+
+        if(front2 == NULL)
+        {
+            printf("Do nothing because queue is empty\n");
+            return;
+        }
+        else
+            if (front2->ptr != NULL)
+            {
+                front2 =  front2->ptr
+                printf("Dequeued values: %c, %c, %s\n", front->srcAdrs, front->dstAdrs, front->l2payload);
+                free(front);
+                front = front2;
+            }
+            else
+            {
+                printf("Dequeued values: %c, %c, %s\n", front->srcAdrs, front->dstAdrs, front->l2payload);
+                free(front);
+                front = NULL;
+                rear = NULL;
+            }
+
     }
-    else
+//end dequeue()
+
+
+
+/*  *********************************
+    Display the queue nodes
+    ********************************* */
+    void display()
+    {
+
+        front2 = front;
+
+        if ((front2 == NULL) && (rear == NULL))
+        {
+            printf("Do nothing. Queue is empty\n")
+            return;
+        }
+        while (front2 != rear)
+        {
+            printf("%c, %c, %s\n", front2->srcAdrs, front2->dstAdrs, front2->l2payload);
+            front2 = front2->ptr;
+        }
+        if (front2 == rear)
+        {
+            printf("%c, %c, %s\n", front2->srcAdrs, front2->dstAdrs, front2->l2payload);
+        }
+
+    }
+//end display()
+
+
+
+/*  *************************************************
+    queueSize counts the number of nodes in the queue
+    ************************************************* */
+    int queueSize()
     {
         
-    }
-}
+        int count = 0
+        front2 = front;
 
+        if ((front2 == NULL) && (rear == NULL))
+        {
+            return count;
+        }
+        while (front2 != rear)
+        {
+            count++;
+            front2 = front2->ptr;
+        }
+        if (front2 == rear)
+        {
+            count++;
+        }
+
+        return count;
+
+    }
+//end queueSize()
