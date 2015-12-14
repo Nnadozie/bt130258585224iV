@@ -15,6 +15,7 @@
    void main()
    {
    		char srcAdrs;
+   		char choice;
    		// dstAdress, l2PayLoad[30];
    		int no, control, choice;
 
@@ -30,7 +31,8 @@
    		{
 
 	   		printf("\nEnter choice: ");
-	   		scanf("%d", &choice);
+	   		while()
+	   		scanf("%c", &choice);
 
 	   		switch (choice)
 	   		{
