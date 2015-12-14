@@ -27,7 +27,7 @@
 /*  ***************************************************
     enqueue adds a new node to the bottom of the queue
     *************************************************** */
-    void enqueue(char srcAdrs, char dstAdrs, char * l2PayLoad) /* consider how you'll make these arguments into a single sturcture argument that can be passed in a go*/
+    void enqueue(char srcAdrs) /* consider how you'll make these arguments into a single sturcture argument that can be passed in a go*/
     {
 
         if (rear == NULL)
@@ -35,7 +35,7 @@
             rear = (struct l2Packet *) malloc(sizeof(struct l2Packet));
             rear->ptr = NULL;
             rear->srcAdrs = srcAdrs;
-            rear->dstAdrs = dstAdrs;
+            //rear->dstAdrs = dstAdrs;
             /*rear->l2PayLoad = l2Packet  /*  I don't think this will work due to how strings operate.
                                             Find out how to use strCopy*/
             front = rear;
@@ -45,7 +45,7 @@
             temp = (struct l2Packet *) malloc(sizeof(struct l2Packet));
             rear->ptr = temp;
             temp->srcAdrs = srcAdrs;
-            temp->dstAdrs = dstAdrs;
+            //temp->dstAdrs = dstAdrs;
             temp->ptr =NULL;
 
             rear = temp;

@@ -14,10 +14,11 @@
    ************* */
    void main()
    {
-   		char srcAdrs, dstAdress, l2PayLoad[30];
+   		char srcAdrs;
+   		// dstAdress, l2PayLoad[30];
    		int no, control, choice;
 
-   		control = 1;
+   		//control = 1;
 
    		printf("1 - Enqueue\n");
    		printf("2 - Dequeue\n");
@@ -25,18 +26,18 @@
    		printf("4 - Display queue\n");
    		create();
 
-   		while(control)
+   		while(1)
    		{
 
-	   		printf("\nEnter choice\n:\n");
+	   		printf("\nEnter choice: ");
 	   		scanf("%d", &choice);
 
 	   		switch (choice)
 	   		{
 	   		case 1:
-	   			printf("Enter data :");
-	   			scanf("%c%c%s", &srcAdrs, &dstAdress, l2PayLoad); /* Employ the use of conversion specifiers */
-	   			enqueue(srcAdrs, dstAdress, l2PayLoad);
+	   			printf("Enter data: ");
+	   			scanf("%c", &srcAdrs); /* Employ the use of conversion specifiers */
+	   			enqueue(srcAdrs);
 	   			break;
 	   		case 2:
 	   			dequeue();
@@ -47,10 +48,12 @@
 	   		case 4:
 	   			display();
 	   			break;
+	   		default:
+	   			break;
 	   		}//end queue control switch statement
 
-	   		printf("1 - Continue\n");
-	   		scanf("%d", &control);
+	   		//printf("0 - Stop , 1 - continue\n");
+	   		//scanf("%d", &control);
 
    		}//end queue control while loop
 
