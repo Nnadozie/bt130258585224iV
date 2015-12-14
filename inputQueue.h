@@ -4,19 +4,23 @@
    ******************************************************************************************************
    Function: inputQueue header file
    ****************************************************************************************************** */
-#include <stdlib.h>
+//#include <stdlib.h>
 
-struct l2Packet    
-{
+/* ********************************
+    Structure of the layer 2 packet
+    ******************************* */
+    struct l2Packet    
+    {
 
-    char srcAdrs;   //source address
-    char dstAdrs;   //destination address
-    char l2payload[L2MAXLOAD]; 
-    struct l2Packet *ptr;
+        char srcAdrs;   //source address
+        char dstAdrs;   //destination address
+        char l2PayLoad[L2MAXLOAD]; 
+        struct l2Packet *ptr;
 
-}*front, *rear, *temp, *front2
+    }*front, *rear, *temp, *front2;
+//end l2packet
 
-void enqueue(int data);
+void enqueue(char srcAdrs, char dstAdrs, char * l2PayLoad); /* consider how you'll make these arguments into a single sturcture argument that can be passed in a go*/
 void dequeue();
 void create();
 int queuesize();

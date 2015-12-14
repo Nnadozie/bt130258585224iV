@@ -9,22 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define L2MAXLOAD 30
-
-
-
-/* ********************************
-    Structure of the layer 2 packet
-    ******************************* */
-    struct l2Packet    
-    {
-
-        char srcAdrs;   //source address
-        char dstAdrs;   //destination address
-        char l2payload[L2MAXLOAD]; 
-        struct l2Packet *ptr;
-
-    }*front, *rear, *temp, *front2
-//end l2packet
+#include "inputQueue.h"
 
 
 
@@ -42,7 +27,7 @@
 /*  ***************************************************
     enqueue adds a new node to the bottom of the queue
     *************************************************** */
-    void enqueue(char srcAdrs, char dstAdrs, char l2payload[]) /* consider how you'll make these arguments into a single sturcture argument that can be passed in a go*/
+    void enqueue(char srcAdrs, char dstAdrs, char * l2PayLoad) /* consider how you'll make these arguments into a single sturcture argument that can be passed in a go*/
     {
 
         if (rear == NULL)
@@ -51,7 +36,7 @@
             rear->ptr = NULL;
             rear->srcAdrs = srcAdrs;
             rear->dstAdrs = dstAdrs;
-            rear->l2payload = l2Packet  /*  I don't think this will work due to how strings operate.
+            /*rear->l2PayLoad = l2Packet  /*  I don't think this will work due to how strings operate.
                                             Find out how to use strCopy*/
             front = rear;
         }
@@ -59,7 +44,8 @@
         {
             temp = (struct l2Packet *) malloc(sizeof(struct l2Packet));
             rear->ptr = temp;
-            temp->info = data;
+            temp->srcAdrs = srcAdrs;
+            temp->dstAdrs = dstAdrs;
             temp->ptr =NULL;
 
             rear = temp;
@@ -87,14 +73,14 @@
         else
             if (front2->ptr != NULL)
             {
-                front2 =  front2->ptr
-                printf("Dequeued values: %c, %c, %s\n", front->srcAdrs, front->dstAdrs, front->l2payload);
+                front2 =  front2->ptr;
+                printf("Dequeued values: %c, %c, %s\n", front->srcAdrs, front->dstAdrs, front->l2PayLoad);
                 free(front);
                 front = front2;
             }
             else
             {
-                printf("Dequeued values: %c, %c, %s\n", front->srcAdrs, front->dstAdrs, front->l2payload);
+                printf("Dequeued values: %c, %c, %s\n", front->srcAdrs, front->dstAdrs, front->l2PayLoad);
                 free(front);
                 front = NULL;
                 rear = NULL;
@@ -115,17 +101,17 @@
 
         if ((front2 == NULL) && (rear == NULL))
         {
-            printf("Do nothing. Queue is empty\n")
+            printf("Do nothing. Queue is empty\n");
             return;
         }
         while (front2 != rear)
         {
-            printf("%c, %c, %s\n", front2->srcAdrs, front2->dstAdrs, front2->l2payload);
+            printf("%c, %c, %s\n", front2->srcAdrs, front2->dstAdrs, front2->l2PayLoad);
             front2 = front2->ptr;
         }
         if (front2 == rear)
         {
-            printf("%c, %c, %s\n", front2->srcAdrs, front2->dstAdrs, front2->l2payload);
+            printf("%c, %c, %s\n", front2->srcAdrs, front2->dstAdrs, front2->l2PayLoad);
         }
 
     }
@@ -138,8 +124,8 @@
     ************************************************* */
     int queueSize()
     {
-        
-        int count = 0
+
+        int count = 0;
         front2 = front;
 
         if ((front2 == NULL) && (rear == NULL))
