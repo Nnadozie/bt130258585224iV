@@ -1,7 +1,16 @@
 /* *******************************
    Author: Okeke Nnadozie
-   Function Name: inputQueues
+   Function Name: inputQueue.h
    ******************************************************************************************************
-   Function: inputQueues contains the implementation of the input queues to the router, which need to have
-   a configurable maximum length, and be capable of storing the defined packets.
+   Function: inputQueue header file
    ****************************************************************************************************** */
+ 
+struct l2Packet    
+{
+
+    char srcAdrs;   //source address
+    char dstAdrs;   //destination address
+    char l2payload[L2MAXLOAD]; 
+    struct l2Packet *ptr;
+
+}*front, *rear, *temp, *front2
