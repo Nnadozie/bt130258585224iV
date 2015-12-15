@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 #include <string.h>
-//#define DEBUG
+#define DEBUG
 
 
 /* *************
@@ -15,22 +15,12 @@
    ************* */
    void main()
    {
-   		char srcAdrs;
-   		int choice, control;
+   		int choice, control, k, j, space, front, back;;
    		
-   		int i, j, chars, space, front, back;
+   		char srcAdrs;
    		char inputLine[42];
    		char layer2[32];
    		char l2PayLoad[30];			
-
-   		i = 0; 
-   		space = 0;
-   		front = 0;
-   		back = 0;
-   		chars = -1; //This is set to count character locations in an array, therefore for the first
-   					//increment to correlate with the first position of the array, the count must begin from -1
-		
-   		control = 1;
 
    		printf("1 - Enqueue\n");
    		printf("2 - Dequeue\n");
@@ -39,6 +29,7 @@
    		printf("5 - stop and exit\n");
    		create();
 
+   		control = 1;
    		while(control)
    		{
 
@@ -54,65 +45,68 @@
 
 
 	   			/*	**************************************************************************
-	   				This function belongs in feeder program, and is used for reading in the 
+	   				This function belongs in feeder program, and is to be used for reading in the 
 	   				example file. It is employed here for testing purposes.
 	   				************************************************************************** */
-	   				//int i = 0; 			;remember to delete these line duplicates that are above
-					//char word[100];
-					puts("Enter words separated by commas\n");
+	   				puts("Enter words separated by commas\n");
 					fgets(inputLine, 42, stdin);
+					
+					k = 0;
+					space = 0;
+					front = 0;
+					back = 0;
 
-					while(inputLine[i] != '\0')
+					for (j = 0; j < strlen(inputLine); j++)
 					{
-
-						if (inputLine[i] == ',')
-						{	
-							//chars++; 
+						if (inputLine[j] == ',')
+						{
+							continue;
 						}
-						else if(inputLine[i] == ' ')
-						{	
+						else if (inputLine[j] == ' ')
+						{
 
-							//chars++;
-							space++;
-
+							space = space + 1;
+							
 							if (space == 3)
-							{ front = chars + 1; }
-
+							{
+								front = k + 1;
+							}
 							if (space == 4)
-							{ back = chars; }
-
+							{
+								back = k;
+							}
+							continue;	//PUTTING A CONTINUE IS CRITICAL
+							
 						}
 						else
 						{
-
-							chars++;
-							layer2[chars] = inputLine[i];
-							//printf("%c", word[i]);
-
+							layer2[k] = inputLine[j];
 						}
 
-						i++;
+						k++;
 					}
-				//end function that belongs to feeder program.
+
+					layer2[k] = '\0';  //DOING THIS IS CRITICAL
+					
+				//end layer2 packet reader.
 
 
 
-				/* 	************************************
-					This function also belongs to feeder.
-					it extracts layer2's payload and stores
-					it in an array of characters.
-					************************************ */
-				for (j = 0; j < 30; j++)
-				{
-					l2PayLoad[j] = layer2[j+2];
-				}
-				// end layer2 payload extractor
+				/*	*************************************
+					L2PAYLOAD extractor. Also belongs in 
+					feeder.
+					************************************* */
+					for (k = 0; k < strlen(layer2); k++)
+					{
+						l2PayLoad[k] = layer2[k + 2];
+					}
+				//end layer2payload extractor
+
 
 				#ifdef DEBUG
-				{
-					printf("%s", l2PayLoad);
-				}
-				puts(layer2);
+					puts(inputLine);
+					puts(layer2);
+					printf("%d %d\n", front, back);
 				#endif
 
 
