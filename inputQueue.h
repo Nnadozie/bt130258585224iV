@@ -4,7 +4,8 @@
    ******************************************************************************************************
    Function: inputQueue header file
    ****************************************************************************************************** */
-//#include <stdlib.h>
+
+
 
 /* ********************************
     Structure of the layer 2 packet
@@ -20,7 +21,7 @@
     }*front, *rear, *temp, *front2;
 //end l2packet
 
-void enqueue(char srcAdrs); /* consider how you'll make these arguments into a single sturcture argument that can be passed in a go*/
+void enqueue(char srcAdrs, char dstAdrs, char l2PayLoad[]); /* consider how you'll make the argument into a single sturcture argument that can be passed at a go*/
 void dequeue();
 void create();
 int queuesize();
