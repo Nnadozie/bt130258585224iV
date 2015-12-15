@@ -1,9 +1,10 @@
 CC=gcc
 CFLAGS=-I.
 DEPS = feedInputQueue.h inputQueue.h
+OBJ = feedInputQueue.o inputQueue.o testInputQueue.o
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-inputQueue: feedInputQueue.o inputQueue.o testInputQueue.o 
-	gcc -o inputQueue feedInputQueue.o inputQueue.o testInputQueue.o  -I.
+router: $(OBJ)
+	gcc -o $@ $^ $(CFLAGS)
