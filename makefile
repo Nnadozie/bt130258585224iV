@@ -1,8 +1,2 @@
-SRC = testInputQueue.c inputQueue.c feedInputQueue.c
-OBJ = testInputQueue.o inputQueue.o feedInputQueue.o
-PROG = inputQueue
-
-$(PROG) : $(OBJ)
-  gcc $(OBJ) -o $(PROG)
-  
-$(OBJ) : $(SRC)
+inputQueue: feedInputQueue.c inputQueue.c testInputQueue.c
+	gcc -o inputQueue feedInputQueue.c inputQueue.c testInputQueue.c -I.
