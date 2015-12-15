@@ -8,8 +8,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #define L2MAXLOAD 30
 #include "inputQueue.h"
+//#define DEBUG
 
 
 
@@ -27,17 +29,19 @@
 /*  ***************************************************
     enqueue adds a new node to the bottom of the queue
     *************************************************** */
-    void enqueue(char srcAdrs) /* consider how you'll make these arguments into a single sturcture argument that can be passed in a go*/
+    void enqueue(char srcAdrs, char dstAdrs, char l2PayLoad[]) /* consider how you'll make these arguments into a single sturcture argument that can be passed in a go*/
     {
+        #ifdef DEBUG
+            puts(l2PayLoad);
+        #endif
 
         if (rear == NULL)
         {
             rear = (struct l2Packet *) malloc(sizeof(struct l2Packet));
             rear->ptr = NULL;
             rear->srcAdrs = srcAdrs;
-            //rear->dstAdrs = dstAdrs;
-            /*rear->l2PayLoad = l2Packet  /*  I don't think this will work due to how strings operate.
-                                            Find out how to use strCopy*/
+            rear->dstAdrs = dstAdrs;
+            strcpy(rear->l2PayLoad, l2PayLoad);  /*  make sure to include string library*/
             front = rear;
         }
         else
@@ -45,11 +49,17 @@
             temp = (struct l2Packet *) malloc(sizeof(struct l2Packet));
             rear->ptr = temp;
             temp->srcAdrs = srcAdrs;
-            //temp->dstAdrs = dstAdrs;
+            temp->dstAdrs = dstAdrs;
+            strcpy(temp->l2PayLoad, l2PayLoad);
             temp->ptr =NULL;
 
             rear = temp;
         }
+
+        #ifdef DEBUG
+        puts("I've loaded the structure");
+        puts(rear -> l2PayLoad);
+        #endif
 
     } 
 //end enqueue()
