@@ -1,2 +1,5 @@
-inputQueue: feedInputQueue.c inputQueue.c testInputQueue.c
-	gcc -o inputQueue feedInputQueue.c inputQueue.c testInputQueue.c -I.
+CC = gcc
+CFLAGS = -I. 
+
+inputQueue: feedInputQueue.o inputQueue.o testInputQueue.o
+	gcc -o inputQueue feedInputQueue.o inputQueue.o testInputQueue.o -I.
