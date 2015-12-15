@@ -1,5 +1,9 @@
-CC = gcc
-CFLAGS = -I. 
+CC=gcc
+CFLAGS=-I.
+DEPS = hellomake.h
 
-inputQueue: feedInputQueue.o inputQueue.o testInputQueue.o
-	gcc -o inputQueue feedInputQueue.o inputQueue.o testInputQueue.o -I.
+%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+hellomake: hellomake.o hellofunc.o 
+	gcc -o hellomake hellomake.o hellofunc.o -I.
