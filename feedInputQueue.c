@@ -16,15 +16,22 @@
 	void feedInputQueues()
 	{
 		//char srcAdrs;
-		int inputQueueSize;
+		enum inputQueue {inptQA, inptQB, inptQC, inptQD};
+		
+		int l3DstAdrsLocation[2];
+   		char layer2[32];
+   		char l2PayLoad[30];
+		
+		int i, inputQueueSize;
+		
+		for(i = 0; i <= inptQD; i++)
+		{
+			create(i);
+		}
+
 		puts("Enter input queue size"); //make robust so only ints can be entered
 		scanf("%d", &inputQueueSize);
 
-   		int l3DstAdrsLocation[2];
-   		char layer2[32];
-   		char l2PayLoad[30];
-
-   		create(0);
    		char waste = getchar();
    		puts("Enter words separated by commas\n");
    		csvPaktReader(layer2, l3DstAdrsLocation);
