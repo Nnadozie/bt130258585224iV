@@ -11,12 +11,13 @@
 	//#define MAINDEBUG
 
 
-	void testerFunction();
+	//void testerFunction();
 /*	*************
    	MAIN FUNCTION
    	************* */
    	void main()
    	{
+   		feedInputQueues();
    		testerFunction();
    	}
 //end main()

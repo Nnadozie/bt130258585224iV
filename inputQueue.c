@@ -176,7 +176,7 @@
         int choice, control, Q;
         char waste;
         struct l2Packet *deqdPakt;    
-        feedInputQueues();
+        //feedInputQueues();
 
     /*  ************************************
         User interface for debugging queues.
