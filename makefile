@@ -1,4 +1,4 @@
-CC=gcc
+CC=mingw
 CFLAGS=-I.
 DEPS = feedInputQueue.h inputQueue.h
 OBJ = feedInputQueue.o inputQueue.o testInputQueue.o
@@ -6,5 +6,5 @@ OBJ = feedInputQueue.o inputQueue.o testInputQueue.o
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-router: $(OBJ)
+inputQueue: $(OBJ)
 	gcc -o $@ $^ $(CFLAGS)

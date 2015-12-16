@@ -4,7 +4,7 @@
    ******************************************************************************************************
    Function: inputQueue header file
    ****************************************************************************************************** */
-
+  // #define NUMOFQUEUES 11
 
 
 /* ********************************
@@ -18,11 +18,11 @@
         char l2PayLoad[L2MAXLOAD]; 
         struct l2Packet *ptr;
 
-    }*front, *rear, *temp, *front2;
+    } *front[11], *rear[11], *temp[11], *front2[11];
 //end l2packet
 
-void enqueue(char srcAdrs, char dstAdrs, char l2PayLoad[]); /* consider how you'll make the argument into a single sturcture argument that can be passed at a go*/
-void dequeue();
-void create();
-int queuesize();
-void display();
+  void enqueue(char srcAdrs, char dstAdrs, char l2PayLoad[], int packDstQ); /* consider how you'll make the argument into a single sturcture argument that can be passed at a go*/
+  void dequeue(int packDstQ);
+  void create(int packDstQ);
+  int queuesize(int packDstQ);
+  void display(int packDstQ);

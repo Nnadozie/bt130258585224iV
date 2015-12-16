@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #define L2MAXLOAD 30
+#define NUMOFQU 11
 #include "inputQueue.h"
 //#define DEBUG
 
@@ -18,9 +19,11 @@
 /*  ***************************
     create makes an empty queue
     *************************** */
-    void create()
+    void create(int packDstQ)
     {
-        front = rear = NULL;
+        //front[packDstQ] = (struct l2Packet*) malloc(sizeof(struct l2Packet)); //Read as front node/end of queue packet is destined for gets the value... 
+        //rear[packDstQ] = (struct l2Packet*) malloc(sizeof(struct l2Packet));
+        front[packDstQ] = rear[packDstQ] = NULL;
     }
 //end create()
 
@@ -29,31 +32,31 @@
 /*  ***************************************************
     enqueue adds a new node to the bottom of the queue
     *************************************************** */
-    void enqueue(char srcAdrs, char dstAdrs, char l2PayLoad[]) /* consider how you'll make these arguments into a single sturcture argument that can be passed in a go*/
+    void enqueue(char srcAdrs, char dstAdrs, char l2PayLoad[], int packDstQ) /* consider how you'll make these arguments into a single sturcture argument that can be passed in a go*/
     {
         #ifdef DEBUG
             puts(l2PayLoad);
         #endif
 
-        if (rear == NULL)
+        if (rear[packDstQ] == NULL)
         {
-            rear = (struct l2Packet *) malloc(sizeof(struct l2Packet));
-            rear->ptr = NULL;
-            rear->srcAdrs = srcAdrs;
-            rear->dstAdrs = dstAdrs;
-            strcpy(rear->l2PayLoad, l2PayLoad);  /*  make sure to include string library*/
-            front = rear;
+            rear[packDstQ] = (struct l2Packet *) malloc(sizeof(struct l2Packet));
+            rear[packDstQ]->ptr = NULL;
+            rear[packDstQ]->srcAdrs = srcAdrs;
+            rear[packDstQ]->dstAdrs = dstAdrs;
+            strcpy(rear[packDstQ]->l2PayLoad, l2PayLoad);  /*  make sure to include string library*/
+            front[packDstQ] = rear[packDstQ];
         }
         else
         {
-            temp = (struct l2Packet *) malloc(sizeof(struct l2Packet));
-            rear->ptr = temp;
-            temp->srcAdrs = srcAdrs;
-            temp->dstAdrs = dstAdrs;
-            strcpy(temp->l2PayLoad, l2PayLoad);
-            temp->ptr =NULL;
+            temp[packDstQ] = (struct l2Packet *) malloc(sizeof(struct l2Packet));
+            rear[packDstQ]->ptr = temp[packDstQ];
+            temp[packDstQ]->srcAdrs = srcAdrs;
+            temp[packDstQ]->dstAdrs = dstAdrs;
+            strcpy(temp[packDstQ]->l2PayLoad, l2PayLoad);
+            temp[packDstQ]->ptr =NULL;
 
-            rear = temp;
+            rear[packDstQ] = temp[packDstQ];
         }
 
         #ifdef DEBUG
@@ -69,31 +72,31 @@
 /*  ************************************************
     dequeue removes a node from the top of the queue
     ************************************************ */
-    void dequeue() /* This will have to return the structure so that it can be queued later on in the main queue*/
+    void dequeue(int packDstQ) /* This will have to return the structure so that it can be queued later on in the main queue*/
 
     {
 
-        front2 = front;
+        front2[packDstQ] = front[packDstQ];
 
-        if(front2 == NULL)
+        if(front2[packDstQ] == NULL)
         {
             printf("Do nothing because queue is empty\n");
             return;
         }
         else
-            if (front2->ptr != NULL)
+            if (front2[packDstQ]->ptr != NULL)
             {
-                front2 =  front2->ptr;
-                printf("Dequeued values: %c, %c, %s\n", front->srcAdrs, front->dstAdrs, front->l2PayLoad);
-                free(front);
-                front = front2;
+                front2[packDstQ] =  front2[packDstQ]->ptr;
+                printf("Dequeued values: %c, %c, %s\n", front[packDstQ]->srcAdrs, front[packDstQ]->dstAdrs, front[packDstQ]->l2PayLoad);
+                free(front[packDstQ]);
+                front[packDstQ] = front2[packDstQ];
             }
             else
             {
-                printf("Dequeued values: %c, %c, %s\n", front->srcAdrs, front->dstAdrs, front->l2PayLoad);
-                free(front);
-                front = NULL;
-                rear = NULL;
+                printf("Dequeued values: %c, %c, %s\n", front[packDstQ]->srcAdrs, front[packDstQ]->dstAdrs, front[packDstQ]->l2PayLoad);
+                free(front[packDstQ]);
+                front[packDstQ] = NULL;
+                rear[packDstQ] = NULL;
             }
 
     }
@@ -104,24 +107,24 @@
 /*  *********************************
     Display the queue nodes
     ********************************* */
-    void display()
+    void display(int packDstQ)
     {
 
-        front2 = front;
+        front2[packDstQ] = front[packDstQ];
 
-        if ((front2 == NULL) && (rear == NULL))
+        if ((front2[packDstQ] == NULL) && (rear[packDstQ] == NULL))
         {
             printf("Do nothing. Queue is empty\n");
             return;
         }
-        while (front2 != rear)
+        while (front2[packDstQ] != rear[packDstQ])
         {
-            printf("%c, %c, %s\n", front2->srcAdrs, front2->dstAdrs, front2->l2PayLoad);
-            front2 = front2->ptr;
+            printf("%c, %c, %s\n", front2[packDstQ]->srcAdrs, front2[packDstQ]->dstAdrs, front2[packDstQ]->l2PayLoad);
+            front2[packDstQ] = front2[packDstQ]->ptr;
         }
-        if (front2 == rear)
+        if (front2[packDstQ] == rear[packDstQ])
         {
-            printf("%c, %c, %s\n", front2->srcAdrs, front2->dstAdrs, front2->l2PayLoad);
+            printf("%c, %c, %s\n", front2[packDstQ]->srcAdrs, front2[packDstQ]->dstAdrs, front2[packDstQ]->l2PayLoad);
         }
 
     }
@@ -132,22 +135,22 @@
 /*  *************************************************
     queueSize counts the number of nodes in the queue
     ************************************************* */
-    int queueSize()
+    int queueSize(int packDstQ)
     {
 
         int count = 0;
-        front2 = front;
+        front2[packDstQ] = front[packDstQ];
 
-        if ((front2 == NULL) && (rear == NULL))
+        if ((front2[packDstQ] == NULL) && (rear[packDstQ] == NULL))
         {
             return count;
         }
-        while (front2 != rear)
+        while (front2[packDstQ] != rear[packDstQ])
         {
             count++;
-            front2 = front2->ptr;
+            front2[packDstQ] = front2[packDstQ]->ptr;
         }
-        if (front2 == rear)
+        if (front2[packDstQ] == rear[packDstQ])
         {
             count++;
         }
