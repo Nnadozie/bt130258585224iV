@@ -24,9 +24,8 @@
     *************************** */
     void create(int packDstQ)
     {
-        front[packDstQ] = (struct l2Packet*) malloc(sizeof(struct l2Packet)); //Read as front node/end of queue packet is destined for gets the value... 
-        rear[packDstQ] = (struct l2Packet*) malloc(sizeof(struct l2Packet));
-        front[packDstQ] = rear[packDstQ] = NULL;
+        front[packDstQ] = rear[packDstQ] = NULL; //Read as front node of the queue that the packet is destined for gets the value... 
+
     }
 //end create()
 
