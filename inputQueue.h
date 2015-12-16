@@ -15,7 +15,7 @@
 
         char srcAdrs;   //source address
         char dstAdrs;   //destination address
-        char l2PayLoad[L2MAXLOAD]; 
+        char *l2PayLoad; 
         struct l2Packet *ptr;
 
     } *front[11], *rear[11], *temp[11], *front2[11];

@@ -9,13 +9,14 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
-    #define L2MAXLOAD 30
+    //#define L2MAXLOAD 30
 /*  #define NUMOFQUEUES 11: I tried to use this to set the no. of queues - 
     currently set at 11 in the inputQueue.h headerfile by setting all the struct
     l2packet pointers to 11 - but it seems #define only works in functions and 
     structures. */
     #include "inputQueue.h"
     //#define DEBUG
+    int L2MAXLOAD;
 
 
 
@@ -24,8 +25,7 @@
     *************************** */
     void create(int packDstQ)
     {
-        front[packDstQ] = rear[packDstQ] = NULL; //Read as front node of the queue that the packet is destined for gets the value... 
-
+        front[packDstQ] = rear[packDstQ] = NULL; //Read as front node of the queue that the packet is destined for gets the value...
     }
 //end create()
 
@@ -40,12 +40,15 @@
             puts(l2PayLoad);
         #endif
 
+        char layer2PayLoad[L2MAXLOAD];
+
         if (rear[packDstQ] == NULL)
         {
             rear[packDstQ] = (struct l2Packet *) malloc(sizeof(struct l2Packet));
             rear[packDstQ]->ptr = NULL;
             rear[packDstQ]->srcAdrs = srcAdrs;
             rear[packDstQ]->dstAdrs = dstAdrs;
+            rear[packDstQ]->l2PayLoad = layer2PayLoad;
             strcpy(rear[packDstQ]->l2PayLoad, l2PayLoad);  /*  make sure to include string library*/
             front[packDstQ] = rear[packDstQ];
         }
@@ -55,6 +58,7 @@
             rear[packDstQ]->ptr = temp[packDstQ];
             temp[packDstQ]->srcAdrs = srcAdrs;
             temp[packDstQ]->dstAdrs = dstAdrs;
+            temp[packDstQ]->l2PayLoad = layer2PayLoad;
             strcpy(temp[packDstQ]->l2PayLoad, l2PayLoad);
             temp[packDstQ]->ptr =NULL;
 
@@ -173,6 +177,7 @@
     ************************************************* */
     void testerFunction()
     {
+        //printf("%d\n", sizeof(front[0]->l2PayLoad));
         int choice, control, Q;
         char waste;
         struct l2Packet *deqdPakt;    
