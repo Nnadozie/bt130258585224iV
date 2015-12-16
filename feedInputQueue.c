@@ -6,6 +6,7 @@
    ****************************************************************************************************** */
 #include <string.h>
 #include <stdio.h>
+//#define DISPLAYQUEUES
 
 
 
@@ -15,73 +16,114 @@
 	**************************************************************** */
 	void feedInputQueues()
 	{
-		//char srcAdrs;
+	
+	/*	**********************************************************
+		Declaration of all variables used by this function
+		********************************************************** */
 		enum inputQueues {inptQA, inptQB, inptQC, inptQD, inptQE};
+		
 		int l3DstAdrsLocation[2];
    		char layer2[32];
    		char l2PayLoad[30];
+   		char filename[50];
+   		char waste;
+		
 		int i, inptQSize;
 		int l2SrcAdrs;
-		
+		FILE *fptr;
+	//end variable declaraton
+
+
+	/*	***********************************
+		create all queues of router ecs501u
+		*********************************** */
 		for(i = 0; i < 11; i++)
 		{
 			create(i);
 		}
+	//end create
 
-		puts("Enter input queue size"); //make robust so only ints can be entered
+
+	/*	*****************************************************************************
+		Set the size of the input Queues, and get the csv filename.
+		***************************************************************************** */
+		puts("Enter size of input queues"); //make robust so only ints can be entered
 		scanf("%d", &inptQSize);
+		waste = getchar();
 
-   		char waste = getchar();
-   		puts("Enter words separated by commas\n");
+		puts("Enter the name of file which contains packet information");
+		scanf("%s", filename);
+		waste = getchar();
+	//end user input collection
 
-   		int eof = 1;
 
-   		//while(eof != 0)
-   		//{
-	   		csvPaktReader(layer2, l3DstAdrsLocation);
-	   		l2PayLoadExtractor(layer2, l2PayLoad);
-	   	
-	   		//l2SrcAdrs = layer2[0];
-	   		//printf("%c\n", layer2[0]);
+	/*	***************************************************
+		Open .csv file and create room for error in opening
+		*************************************************** */
+		fptr = fopen(filename, "r");
+		if(fptr == NULL)
+		{	puts("Error: Could not open file"); }
+		else
+		{
+	//end open .csv file
 
-	   		switch (layer2[0])
-	   		{
-	   		case 'A':
-		   		if(queueSize(inptQA) < inptQSize)
-		   		{
-		   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQA);
-		   		}
-		   		break;
-		   	case 'B':
-		   		if(queueSize(inptQB) < inptQSize)
-		   		{
-		   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQB);
-		   		}
-		   		break;
-		   	case 'C':
-		   		if(queueSize(inptQC) < inptQSize)
-		   		{
-		   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQC);
-		   		}
-		   		break;
-		   	case 'D':
-		   		if(queueSize(inptQD) < inptQSize)
-		   		{
-		   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQD);
-		   		}
-		   		break;
-		   	case 'E':
-		   		if(queueSize(inptQE) < inptQSize)
-		   		{
-		   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQE);
-		   		}
-		   		break;
-		   	default:
-		   		puts("Error: Source address is invalid");
-		   		break;
-		   	}//end switch
 
-   		//}
+		/*	*********************************************************************
+			Get packets from .csv file and queue them in appropriate input queues.
+			Also check source address of packets for their validity.
+			********************************************************************* */
+			while(feof(fptr) == 0)
+			{   		
+		   		csvPaktReader(layer2, l3DstAdrsLocation, fptr);
+		   		l2PayLoadExtractor(layer2, l2PayLoad);
+
+		   		switch (layer2[0])
+		   		{
+		   		case 'A':
+			   		if(queueSize(inptQA) < inptQSize)
+			   		{
+			   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQA);
+			   		}
+			   		break;
+			   	case 'B':
+			   		if(queueSize(inptQB) < inptQSize)
+			   		{
+			   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQB);
+			   		}
+			   		break;
+			   	case 'C':
+			   		if(queueSize(inptQC) < inptQSize)
+			   		{
+			   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQC);
+			   		}
+			   		break;
+			   	case 'D':
+			   		if(queueSize(inptQD) < inptQSize)
+			   		{
+			   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQD);
+			   		}
+			   		break;
+			   	case 'E':
+			   		if(queueSize(inptQE) < inptQSize)
+			   		{
+			   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQE);
+			   		}
+			   		break;
+			   	default:
+			   		puts("Error: Source address is invalid");
+			   		break;
+			   	}//end switch
+
+			}//end while loop
+		}//end ifelse statement
+		// finish getting packets.
+
+		fclose(fptr);	//close file
+
+		#ifdef DISPLAYQUEUES
+			display(inptQA);
+			display(inptQB);
+		#endif
 
 	}
 //end feedInputQueues
@@ -91,11 +133,10 @@
 /*	**************************************************************************
 	csvPaktReaderis used for reading in layer 2 packets from the example file.
 	************************************************************************** */
-	void csvPaktReader(char layer2[], int l3DstAdrsLocation[])
+	void csvPaktReader(char layer2[], int l3DstAdrsLocation[], FILE *fptr)
 	{
 		char inputLine[42];
-		//char l3DstAdrsLocation[2];
-		fgets(inputLine, 42, stdin);
+		fgets(inputLine, 42, fptr);
 						
 		int k = 0;
 		int j = 0;
