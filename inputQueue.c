@@ -10,7 +10,10 @@
 #include <stdlib.h>
 #include <string.h>
 #define L2MAXLOAD 30
-#define NUMOFQU 11
+/*  #define NUMOFQUEUES 11: I tried to use this to set the no. of queues - 
+    currently set at 11 in the inputQueue.h headerfile by setting all the struct
+    l2packet pointers to 11 - but it seems #define only works in functions and 
+    structures. */
 #include "inputQueue.h"
 //#define DEBUG
 
@@ -21,8 +24,8 @@
     *************************** */
     void create(int packDstQ)
     {
-        //front[packDstQ] = (struct l2Packet*) malloc(sizeof(struct l2Packet)); //Read as front node/end of queue packet is destined for gets the value... 
-        //rear[packDstQ] = (struct l2Packet*) malloc(sizeof(struct l2Packet));
+        front[packDstQ] = (struct l2Packet*) malloc(sizeof(struct l2Packet)); //Read as front node/end of queue packet is destined for gets the value... 
+        rear[packDstQ] = (struct l2Packet*) malloc(sizeof(struct l2Packet));
         front[packDstQ] = rear[packDstQ] = NULL;
     }
 //end create()

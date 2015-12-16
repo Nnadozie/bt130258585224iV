@@ -7,4 +7,4 @@ OBJ = feedInputQueue.o inputQueue.o testInputQueue.o
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 inputQueue: $(OBJ)
-	gcc -o $@ $^ $(CFLAGS)
+	mingw -o $@ $^ $(CFLAGS)
