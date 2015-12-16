@@ -1,6 +1,6 @@
 /* *******************************
    Author: Okeke Nnadozie
-   File Name: feedInputQueues.c
+   File Name: feedInputQueue.c
    ******************************************************************************************************
    Function: Contains the implementation for feedInputQueues
    ****************************************************************************************************** */
@@ -8,9 +8,41 @@
 #include <stdio.h>
 
 
+
+/*	****************************************************************
+	feedInputQueues reads in all valid packets from the example file
+	and queues all of them in their respective input queues.
+	**************************************************************** */
+	void feedInputQueues()
+	{
+		//char srcAdrs;
+		int inputQueueSize;
+		puts("Enter input queue size"); //make robust so only ints can be entered
+		scanf("%d", &inputQueueSize);
+
+   		int l3DstAdrsLocation[2];
+   		char layer2[32];
+   		char l2PayLoad[30];
+
+   		create(0);
+   		char waste = getchar();
+   		puts("Enter words separated by commas\n");
+   		csvPaktReader(layer2, l3DstAdrsLocation);
+   		l2PayLoadExtractor(layer2, l2PayLoad);
+
+   		if(queueSize(0) < inputQueueSize)
+   		{
+   			enqueue(layer2[0], layer2[1], l2PayLoad, 0);
+   		}
+
+
+	}
+//end feedInputQueues
+
+
+
 /*	**************************************************************************
-	This function belongs in feeder program, and is to be used for reading in the 
-	example file. It is employed here for testing purposes.
+	csvPaktReaderis used for reading in layer 2 packets from the example file.
 	************************************************************************** */
 	void csvPaktReader(char layer2[], int l3DstAdrsLocation[])
 	{
@@ -73,9 +105,9 @@
 
 
 
-  /*	*************************************
-	L2PAYLOAD extractor. Also belongs in 
-	feeder.
+/*	*************************************
+	L2PAYLOAD extractor extracts layer 2's
+	payload from the read in packets.
 	************************************* */
 	void l2PayLoadExtractor(char layer2[], char l2PayLoad[])
 	{

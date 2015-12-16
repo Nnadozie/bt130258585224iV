@@ -19,18 +19,20 @@
    	{
    		int choice, control; //k, j, space, front, back;;
    		
-   		char srcAdrs;
-   		//char inputLine[42];
+   		//char srcAdrs;
+   		/*char inputLine[42];
    		int l3DstAdrsLocation[2];
    		char layer2[32];
-   		char l2PayLoad[30];			
+   		char l2PayLoad[30];*/		
 
-   		printf("1 - Enqueue\n");
+   		//printf("1 - Enqueue\n");
+   		feedInputQueues();
+
    		printf("2 - Dequeue\n");
    		printf("3 - Queue Size\n");
    		printf("4 - Display queue\n");
    		printf("5 - stop and exit\n");
-   		create(0);
+   		//create(0);
 
    		control = 1;
    		while(control)
@@ -42,26 +44,26 @@
 	   		switch (choice)
 	   		{
 	   		case 1:
-	   			printf("Enter data: \n");
-	   			srcAdrs = getchar();	
+	   			//printf("Enter data: \n");
+	   			//srcAdrs = getchar();	
 	   			/*I've used a getchar() to store unwanted inputs which may affect scanf() or fgets()*/
 	   			
-	   			puts("Enter words separated by commas\n");
-				csvPaktReader(layer2, l3DstAdrsLocation);
+	   			//puts("Enter words separated by commas\n");
+				//csvPaktReader(layer2, l3DstAdrsLocation);
 
 	   			#ifdef DEBUG
 	   				puts(layer2);
 	   				printf("%d %d\n", l3DstAdrsLocation[0], l3DstAdrsLocation[1]);
 	   			#endif
 
-	   			l2PayLoadExtractor(layer2, l2PayLoad);
+	   			//l2PayLoadExtractor(layer2, l2PayLoad);
 
 	   			#ifdef MAINDEBUG
 	   				puts(layer2);
 	   				puts(l2PayLoad);
 	   			#endif
 
-	   			enqueue(layer2[0], layer2[1], l2PayLoad, 0);
+	   			//enqueue(layer2[0], layer2[1], l2PayLoad, 0);
 	   			break;
 	   		case 2:
 	   			dequeue(0);
