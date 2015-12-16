@@ -74,32 +74,34 @@
 /*  ************************************************
     dequeue removes a node from the top of the queue
     ************************************************ */
-    void dequeue(int packDstQ) /* This will have to return the structure so that it can be queued later on in the main queue*/
+    struct l2Packet* dequeue(int packDstQ) /* This will have to return the structure so that it can be queued later on in the main queue*/
 
     {
-
+        struct l2Packet *deqdNode = NULL;
         front2[packDstQ] = front[packDstQ];
 
         if(front2[packDstQ] == NULL)
         {
             printf("Do nothing because queue is empty\n");
-            return;
         }
         else
             if (front2[packDstQ]->ptr != NULL)
             {
                 front2[packDstQ] =  front2[packDstQ]->ptr;
+                front[packDstQ]->ptr = NULL;
+                deqdNode = front[packDstQ];
                 printf("Dequeued values: %c, %c, %s\n", front[packDstQ]->srcAdrs, front[packDstQ]->dstAdrs, front[packDstQ]->l2PayLoad);
-                free(front[packDstQ]);
                 front[packDstQ] = front2[packDstQ];
             }
             else
             {
+                deqdNode = front[packDstQ];
                 printf("Dequeued values: %c, %c, %s\n", front[packDstQ]->srcAdrs, front[packDstQ]->dstAdrs, front[packDstQ]->l2PayLoad);
-                free(front[packDstQ]);
                 front[packDstQ] = NULL;
                 rear[packDstQ] = NULL;
             }
+
+        return deqdNode;
 
     }
 //end dequeue()
@@ -161,3 +163,63 @@
 
     }
 //end queueSize()
+
+
+
+/*  *********************************************
+    Tester function;  part of the user interface
+    and placed here for conveinience. I dont want 
+    to include the structure header in the test conde 
+    ************************************************* */
+    void testerFunction()
+    {
+        int choice, control, Q;
+        char waste;
+        struct l2Packet *deqdPakt;    
+        feedInputQueues();
+
+    /*  ************************************
+        User interface for debugging queues.
+        ************************************ */
+        control = 1;
+        while(control)
+        {   
+            puts("Choose queue:");
+            puts("0 - inputQueueA");
+            puts("1 - inputQueueB");
+            puts("2 - inputQueueC");
+            puts("3 - inputQueueD");
+            puts("4 - inputQueueE");
+            scanf("%d", &Q);
+            waste = getchar();
+
+            printf("1 - Dequeue\n");
+            printf("2 - Queue Size\n");
+            printf("3 - Display queue\n");
+            printf("4 - stop and exit\n");
+            printf("Enter choice: \n");
+            scanf("%d", &choice);
+            waste = getchar();
+
+            switch (choice)
+            {
+            case 1:
+                deqdPakt = dequeue(Q);
+                break;
+            case 2:
+                printf("The queue has %d nodes.\n", queueSize(Q));
+                break;
+            case 3:
+                display(Q);
+                break;
+            case 4:
+                //I need to empty the queue on exit
+                control = 0;
+            default:
+                break;
+            }//end queue control switch statement
+
+        }//end queue control while loop
+    // end of debugging gui.
+    }
+//end testerFunction()
