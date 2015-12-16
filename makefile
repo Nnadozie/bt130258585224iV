@@ -1,4 +1,4 @@
-CC=mingw
+CC=gcc
 CFLAGS=-I.
 DEPS = feedInputQueue.h inputQueue.h
 OBJ = feedInputQueue.o inputQueue.o testInputQueue.o
@@ -7,4 +7,4 @@ OBJ = feedInputQueue.o inputQueue.o testInputQueue.o
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 inputQueue: $(OBJ)
-	mingw -o $@ $^ $(CFLAGS)
+	gcc -o $@ $^ $(CFLAGS)
