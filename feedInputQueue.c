@@ -16,32 +16,72 @@
 	void feedInputQueues()
 	{
 		//char srcAdrs;
-		enum inputQueue {inptQA, inptQB, inptQC, inptQD};
-		
+		enum inputQueues {inptQA, inptQB, inptQC, inptQD, inptQE};
 		int l3DstAdrsLocation[2];
    		char layer2[32];
    		char l2PayLoad[30];
+		int i, inptQSize;
+		int l2SrcAdrs;
 		
-		int i, inputQueueSize;
-		
-		for(i = 0; i <= inptQD; i++)
+		for(i = 0; i < 11; i++)
 		{
 			create(i);
 		}
 
 		puts("Enter input queue size"); //make robust so only ints can be entered
-		scanf("%d", &inputQueueSize);
+		scanf("%d", &inptQSize);
 
    		char waste = getchar();
    		puts("Enter words separated by commas\n");
-   		csvPaktReader(layer2, l3DstAdrsLocation);
-   		l2PayLoadExtractor(layer2, l2PayLoad);
 
-   		if(queueSize(0) < inputQueueSize)
-   		{
-   			enqueue(layer2[0], layer2[1], l2PayLoad, 0);
-   		}
+   		int eof = 1;
 
+   		//while(eof != 0)
+   		//{
+	   		csvPaktReader(layer2, l3DstAdrsLocation);
+	   		l2PayLoadExtractor(layer2, l2PayLoad);
+	   	
+	   		//l2SrcAdrs = layer2[0];
+	   		//printf("%c\n", layer2[0]);
+
+	   		switch (layer2[0])
+	   		{
+	   		case 'A':
+		   		if(queueSize(inptQA) < inptQSize)
+		   		{
+		   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQA);
+		   		}
+		   		break;
+		   	case 'B':
+		   		if(queueSize(inptQB) < inptQSize)
+		   		{
+		   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQB);
+		   		}
+		   		break;
+		   	case 'C':
+		   		if(queueSize(inptQC) < inptQSize)
+		   		{
+		   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQC);
+		   		}
+		   		break;
+		   	case 'D':
+		   		if(queueSize(inptQD) < inptQSize)
+		   		{
+		   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQD);
+		   		}
+		   		break;
+		   	case 'E':
+		   		if(queueSize(inptQE) < inptQSize)
+		   		{
+		   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQE);
+		   		}
+		   		break;
+		   	default:
+		   		puts("Error: Source address is invalid");
+		   		break;
+		   	}//end switch
+
+   		//}
 
 	}
 //end feedInputQueues

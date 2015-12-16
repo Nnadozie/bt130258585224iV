@@ -79,7 +79,6 @@
 	   			control = 0;
 	   		default:
 	   			break;
-
 	   		}//end queue control switch statement
 
    		}//end queue control while loop
