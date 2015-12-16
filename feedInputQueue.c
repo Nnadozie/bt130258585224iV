@@ -4,9 +4,9 @@
    ******************************************************************************************************
    Function: Contains the implementation for feedInputQueues
    ****************************************************************************************************** */
-	#include <string.h>
-	#include <stdio.h>
-	#include "feedInputQueue.h"
+#include <string.h>
+#include <stdio.h>
+
 
 /*	**************************************************************************
 	This function belongs in feeder program, and is to be used for reading in the 
