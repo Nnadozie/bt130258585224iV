@@ -1,9 +1,9 @@
-/* *******************************
-   Author: Okeke Nnadozie
-   File Name: feedInputQueue.c
-   ******************************************************************************************************
-   Function: Contains the implementation for feedInputQueues
-   ****************************************************************************************************** */
+/* 	*******************************
+   	Author: Okeke Nnadozie
+   	File Name: feedInputQueue.c
+   	******************************************************************************************************
+   	Function: Contains the implementation for feedInputQueues
+   	****************************************************************************************************** */
 	#include <string.h>
 	#include <stdio.h>
 	//#define DISPLAYQUEUES
