@@ -8,7 +8,7 @@
 	#include <stdio.h>
 	#include <string.h>
 	//#define DEBUG
-	#define MAIN
+	//#define MAINDEBUG
 
 
 
@@ -56,7 +56,7 @@
 
 	   			l2PayLoadExtractor(layer2, l2PayLoad);
 
-	   			#ifdef MAIN
+	   			#ifdef MAINDEBUG
 	   				puts(layer2);
 	   				puts(l2PayLoad);
 	   			#endif
