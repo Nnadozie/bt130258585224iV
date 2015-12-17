@@ -93,36 +93,35 @@
 			   		if(queueSize(inptQA) < inptQSize)
 			   		{
 			   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQA);
-			   			display(inptQA);
-			   			sleep(2);
+			   			progressReport(inptQA);
 			   		}
 			   		break;
 			   	case 'B':
 			   		if(queueSize(inptQB) < inptQSize)
 			   		{
 			   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQB);
-			   			display(inptQB);
+			   			progressReport(inptQB);
 			   		}
 			   		break;
 			   	case 'C':
 			   		if(queueSize(inptQC) < inptQSize)
 			   		{
 			   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQC);
-			   			display(inptQC);
+			   			progressReport(inptQC);
 			   		}
 			   		break;
 			   	case 'D':
 			   		if(queueSize(inptQD) < inptQSize)
 			   		{
 			   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQD);
-			   			display(inptQD);
+			   			progressReport(inptQD);
 			   		}
 			   		break;
 			   	case 'E':
 			   		if(queueSize(inptQE) < inptQSize)
 			   		{
 			   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQE);
-			   			display(inptQE);
+			   			progressReport(inptQE);
 			   		}
 			   		break;
 			   	default:
@@ -150,6 +149,25 @@
 
 	}
 //end feedInputQueues
+
+
+
+/*	************************************
+	progress report
+	************************************ */
+	void progressReport(int queue)
+	{
+		printf("\n\nPacket passing through input queue %d:\n", queue );
+		display(queue);
+		sleep(4);
+  	
+  		puts("______________________");
+		puts("Packets in main queue:");
+		puts("-----------------------");
+		display(5);
+		puts("-----------------------");
+		sleep(4);
+	}
 
 
 
