@@ -7,7 +7,8 @@
 
 	#include <stdio.h>
 	#include <string.h>
-   #include <externVariables.h>
+  #include <stdlib.h>
+  #include <externVariables.h>
 	//#define DEBUG
 	//#define MAINDEBUG
 
@@ -45,7 +46,7 @@
           
       //end setting of layer two array length.
 
-  		feedInputQueues();
+  	feedInputQueues();
    	testerFunction();
    }
 //end main()
@@ -92,6 +93,7 @@
             {
             case 1:
                 deqdPakt = (struct l2Packet*) dequeue(Q);
+                free(deqdPakt);
                 break;
             case 2:
                 printf("The queue has %d nodes.\n", queueSize(Q));
