@@ -30,7 +30,7 @@
    		char filename[50];
    		char waste;
 		
-		int i, inptQSize;
+		int i, inptQSize, mainQSize;
 		int l2SrcAdrs;
 		FILE *fptr;
 	//end variable declaraton
@@ -47,10 +47,14 @@
 
 
 	/*	*****************************************************************************
-		Set the size of the input Queues, and get the csv filename.
+		Set the size of the input Queues and main queue, and get the csv filename.
 		***************************************************************************** */
 		puts("Enter size of input queues"); //make robust so only ints can be entered
 		scanf("%d", &inptQSize);
+		waste = getchar();
+
+		puts("Enter size of main queue"); //make robust so only ints can be entered
+		scanf("%d", &mainQSize);
 		waste = getchar();
 
 		puts("Enter the name of file which contains packet information");
@@ -116,6 +120,7 @@
 			   		break;
 			   	}//end switch
 
+			   	multiplexer(mainQSize);
 			}//end while loop
 		}//end ifelse statement
 		// finish getting packets.

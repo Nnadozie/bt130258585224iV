@@ -48,7 +48,7 @@
 
   	feedInputQueues();
    	testerFunction();
-    multiplexer();
+    //multiplexer();
 
    }
 //end main()
@@ -80,6 +80,7 @@
             puts("2 - inputQueueC");
             puts("3 - inputQueueD");
             puts("4 - inputQueueE");
+            puts("5 - mainQueue");
             scanf("%d", &Q);
             waste = getchar();
 
