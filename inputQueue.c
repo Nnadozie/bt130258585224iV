@@ -9,14 +9,16 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
-    #define L2MAXLOAD 30
+    #include "inputQueue.h"
+    //#define L2MAXLOAD 30
 /*  #define NUMOFQUEUES 11: I tried to use this to set the no. of queues - 
     currently set at 11 in the inputQueue.h headerfile by setting all the struct
     l2packet pointers to 11 - but it seems #define only works in functions and 
     structures. */
-    #include "inputQueue.h"
-    //#define DEBUG
+    
 
+    //define extern variable
+    int L2MAXLOAD;
 
 
 /*  ***************************
@@ -24,8 +26,7 @@
     *************************** */
     void create(int packDstQ)
     {
-        front[packDstQ] = rear[packDstQ] = NULL; //Read as front node of the queue that the packet is destined for gets the value... 
-
+        front[packDstQ] = rear[packDstQ] = NULL; //Read as front node of the queue that the packet is destined for gets the value...
     }
 //end create()
 
@@ -40,22 +41,25 @@
             puts(l2PayLoad);
         #endif
 
+
         if (rear[packDstQ] == NULL)
         {
-            rear[packDstQ] = (struct l2Packet *) malloc(sizeof(struct l2Packet));
+            rear[packDstQ] = malloc(sizeof(struct l2Packet) + L2MAXLOAD);
             rear[packDstQ]->ptr = NULL;
             rear[packDstQ]->srcAdrs = srcAdrs;
             rear[packDstQ]->dstAdrs = dstAdrs;
             strcpy(rear[packDstQ]->l2PayLoad, l2PayLoad);  /*  make sure to include string library*/
+            rear[packDstQ]->l2PayLoad[L2MAXLOAD] = '\0';
             front[packDstQ] = rear[packDstQ];
         }
         else
         {
-            temp[packDstQ] = (struct l2Packet *) malloc(sizeof(struct l2Packet));
+            temp[packDstQ] = malloc(sizeof(struct l2Packet) + L2MAXLOAD);
             rear[packDstQ]->ptr = temp[packDstQ];
             temp[packDstQ]->srcAdrs = srcAdrs;
             temp[packDstQ]->dstAdrs = dstAdrs;
             strcpy(temp[packDstQ]->l2PayLoad, l2PayLoad);
+            temp[packDstQ]->l2PayLoad[L2MAXLOAD] = '\0';
             temp[packDstQ]->ptr =NULL;
 
             rear[packDstQ] = temp[packDstQ];
@@ -72,34 +76,37 @@
 
 
 /*  ************************************************
-    dequeue removes a node from the top of the queue
+    dequeue removes a node from the top of the queue, 
+    and returns a pointer to it.
     ************************************************ */
-    void dequeue(int packDstQ) /* This will have to return the structure so that it can be queued later on in the main queue*/
+    struct l2Packet* dequeue(int packDstQ) /* This will have to return the structure so that it can be queued later on in the main queue*/
 
     {
-
+        struct l2Packet *deqdNode = NULL;
         front2[packDstQ] = front[packDstQ];
 
         if(front2[packDstQ] == NULL)
         {
             printf("Do nothing because queue is empty\n");
-            return;
         }
         else
             if (front2[packDstQ]->ptr != NULL)
             {
                 front2[packDstQ] =  front2[packDstQ]->ptr;
-                printf("Dequeued values: %c, %c, %s\n", front[packDstQ]->srcAdrs, front[packDstQ]->dstAdrs, front[packDstQ]->l2PayLoad);
-                free(front[packDstQ]);
+                front[packDstQ]->ptr = NULL;
+                deqdNode = front[packDstQ];
+                printf("Dequeued values: %c, %c, %c\n", front[packDstQ]->srcAdrs, front[packDstQ]->dstAdrs, front[packDstQ]->l2PayLoad);
                 front[packDstQ] = front2[packDstQ];
             }
             else
             {
-                printf("Dequeued values: %c, %c, %s\n", front[packDstQ]->srcAdrs, front[packDstQ]->dstAdrs, front[packDstQ]->l2PayLoad);
-                free(front[packDstQ]);
+                deqdNode = front[packDstQ];
+                printf("Dequeued values: %c, %c, %c\n", front[packDstQ]->srcAdrs, front[packDstQ]->dstAdrs, front[packDstQ]->l2PayLoad);
                 front[packDstQ] = NULL;
                 rear[packDstQ] = NULL;
             }
+
+        return deqdNode;
 
     }
 //end dequeue()

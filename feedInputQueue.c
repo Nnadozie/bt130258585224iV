@@ -7,8 +7,10 @@
 	#include <string.h>
 	#include <stdio.h>
 	//#define DISPLAYQUEUES
+	#include "feedInputQueue.h"
+	//#define DEBUGEXTERN
 
-
+   	int L2MAXLOAD;
 
 /*	****************************************************************
 	feedInputQueues reads in all valid packets from the example file
@@ -24,7 +26,7 @@
 		
 		int l3DstAdrsLocation[2];
    		char layer2[32];
-   		char l2PayLoad[30];
+   		char l2PayLoad[L2MAXLOAD];
    		char filename[50];
    		char waste;
 		
@@ -204,13 +206,14 @@
 		#endif
 
 		int k;
-		for (k = 0; k < strlen(layer2); k++)
+		for (k = 0; k < L2MAXLOAD; k++)
 		{
 			l2PayLoad[k] = layer2[k + 2];
 		}
 
-		#ifdef DEBUG
-			puts(l2PayLoad);
+		#ifdef DEBUGEXTERN
+			//puts(l2PayLoad);
+			printf("%d\n", L2MAXLOAD );
 		#endif
 
 		return;
