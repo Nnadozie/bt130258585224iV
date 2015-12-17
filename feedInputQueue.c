@@ -25,7 +25,6 @@
 		********************************************************** */
 		enum inputQueues {inptQA, inptQB, inptQC, inptQD, inptQE, mainQ};
 		
-		int l3DstAdrsLocation[2];
    		char layer2[32];
    		char l2PayLoad[L2MAXLOAD];
    		char filename[50];
@@ -84,7 +83,7 @@
 			puts("--------------------------------------\n");
 			while(feof(fptr) == 0)
 			{   		
-		   		csvPaktReader(layer2, l3DstAdrsLocation, fptr);
+		   		csvPaktReader(layer2, fptr);
 		   		l2PayLoadExtractor(layer2, l2PayLoad);
 
 		   		switch (layer2[0])
@@ -174,13 +173,14 @@
 /*	**************************************************************************
 	csvPaktReaderis used for reading in layer 2 packets from the example file.
 	************************************************************************** */
-	void csvPaktReader(char layer2[], int l3DstAdrsLocation[], FILE *fptr)
+	void csvPaktReader(char layer2[], FILE *fptr)
 	{
 		char inputLine[42];
 		fgets(inputLine, 42, fptr);
 						
 		int k = 0;
 		int j = 0;
+		int comma = 0;
 		int space = 0;
 		int front = 0;
 		int back = 0;
@@ -189,13 +189,42 @@
 		{
 			if (inputLine[j] == ',')
 			{
+				comma = comma + 1;
+				if(comma == 3)
+				{
+					if(inputLine[j - 2] != ' ')
+					{
+						layer2[2] = inputLine[j - 2];
+					}
+					else
+					{
+						layer2[2] = ' ';
+					}
+
+					layer2[3] = inputLine[j-1];
+					k = 4;
+				}
+				if(comma == 4)
+				{
+					if(inputLine[j - 2] != ' ')
+					{
+						layer2[4] = inputLine[j - 2];
+					}
+					else
+					{
+						layer2[4] = ' ';
+					}
+
+					layer2[5] = inputLine[j-1];
+					k = 6;
+				}
 				continue;
 			}
 			else 
 				if (inputLine[j] == ' ')
 				{
 
-					space = space + 1;
+				/*	space = space + 1;
 		
 					if (space == 3)
 					{
@@ -204,23 +233,20 @@
 					if (space == 4)
 					{
 						back = k;
-					}
+					}*/
 					continue;	//PUTTING A CONTINUE IS CRITICAL
 
 					}
 			else
 			{
 				layer2[k] = inputLine[j];
+				k++;
 			}
 
-			k++;
+			//k++;
 		}
 
 		layer2[k] = '\0';  //DOING THIS IS CRITICAL
-
-		l3DstAdrsLocation[0] = front;
-		l3DstAdrsLocation[1] = back;
-		//return l3DstAdrsLocation;
 
 		#ifdef DEBUG
 			puts(inputLine);

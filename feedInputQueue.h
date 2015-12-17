@@ -6,7 +6,7 @@
    ****************************************************************************************************** */
 
 
-	void csvPaktReader(char layer2[], int l3DstAdrsLocation[], FILE *fptr);
+	void csvPaktReader(char layer2[], FILE *fptr);
 	void l2PayLoadExtractor(char layer2[], char l2payload[]);
 	void feedInputQueues();
 	void progressReport(int queue);
