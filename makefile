@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS=-I.
-DEPS = feedInputQueue.h inputQueue.h
+DEPS = feedInputQueue.h inputQueue.h externVariables.h
 OBJ = feedInputQueue.o inputQueue.o testInputQueue.o
 
 %.o: %.c $(DEPS)

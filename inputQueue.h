@@ -4,7 +4,7 @@
    ******************************************************************************************************
    Function: inputQueue header file
    ****************************************************************************************************** */
-  // #define NUMOFQUEUES 11
+   
 
 
 /* ********************************
@@ -15,8 +15,8 @@
 
         char srcAdrs;   //source address
         char dstAdrs;   //destination address
-        char *l2PayLoad; 
         struct l2Packet *ptr;
+        char l2PayLoad[];
 
     } *front[11], *rear[11], *temp[11], *front2[11];
 //end l2packet
@@ -26,4 +26,3 @@
     void create(int packDstQ);
     int queuesize(int packDstQ);
     void display(int packDstQ);
-    void testerFunction();

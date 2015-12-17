@@ -9,15 +9,16 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
+    #include "inputQueue.h"
     //#define L2MAXLOAD 30
 /*  #define NUMOFQUEUES 11: I tried to use this to set the no. of queues - 
     currently set at 11 in the inputQueue.h headerfile by setting all the struct
     l2packet pointers to 11 - but it seems #define only works in functions and 
     structures. */
-    #include "inputQueue.h"
-    //#define DEBUG
-    int L2MAXLOAD;
+    
 
+    //define extern variable
+    int L2MAXLOAD;
 
 
 /*  ***************************
@@ -40,26 +41,25 @@
             puts(l2PayLoad);
         #endif
 
-        char layer2PayLoad[L2MAXLOAD];
 
         if (rear[packDstQ] == NULL)
         {
-            rear[packDstQ] = (struct l2Packet *) malloc(sizeof(struct l2Packet));
+            rear[packDstQ] = malloc(sizeof(struct l2Packet) + L2MAXLOAD);
             rear[packDstQ]->ptr = NULL;
             rear[packDstQ]->srcAdrs = srcAdrs;
             rear[packDstQ]->dstAdrs = dstAdrs;
-            rear[packDstQ]->l2PayLoad = layer2PayLoad;
             strcpy(rear[packDstQ]->l2PayLoad, l2PayLoad);  /*  make sure to include string library*/
+            rear[packDstQ]->l2PayLoad[L2MAXLOAD] = '\0';
             front[packDstQ] = rear[packDstQ];
         }
         else
         {
-            temp[packDstQ] = (struct l2Packet *) malloc(sizeof(struct l2Packet));
+            temp[packDstQ] = malloc(sizeof(struct l2Packet) + L2MAXLOAD);
             rear[packDstQ]->ptr = temp[packDstQ];
             temp[packDstQ]->srcAdrs = srcAdrs;
             temp[packDstQ]->dstAdrs = dstAdrs;
-            temp[packDstQ]->l2PayLoad = layer2PayLoad;
             strcpy(temp[packDstQ]->l2PayLoad, l2PayLoad);
+            temp[packDstQ]->l2PayLoad[L2MAXLOAD] = '\0';
             temp[packDstQ]->ptr =NULL;
 
             rear[packDstQ] = temp[packDstQ];
@@ -76,7 +76,8 @@
 
 
 /*  ************************************************
-    dequeue removes a node from the top of the queue
+    dequeue removes a node from the top of the queue, 
+    and returns a pointer to it.
     ************************************************ */
     struct l2Packet* dequeue(int packDstQ) /* This will have to return the structure so that it can be queued later on in the main queue*/
 
@@ -94,13 +95,13 @@
                 front2[packDstQ] =  front2[packDstQ]->ptr;
                 front[packDstQ]->ptr = NULL;
                 deqdNode = front[packDstQ];
-                printf("Dequeued values: %c, %c, %s\n", front[packDstQ]->srcAdrs, front[packDstQ]->dstAdrs, front[packDstQ]->l2PayLoad);
+                printf("Dequeued values: %c, %c, %c\n", front[packDstQ]->srcAdrs, front[packDstQ]->dstAdrs, front[packDstQ]->l2PayLoad);
                 front[packDstQ] = front2[packDstQ];
             }
             else
             {
                 deqdNode = front[packDstQ];
-                printf("Dequeued values: %c, %c, %s\n", front[packDstQ]->srcAdrs, front[packDstQ]->dstAdrs, front[packDstQ]->l2PayLoad);
+                printf("Dequeued values: %c, %c, %c\n", front[packDstQ]->srcAdrs, front[packDstQ]->dstAdrs, front[packDstQ]->l2PayLoad);
                 front[packDstQ] = NULL;
                 rear[packDstQ] = NULL;
             }
@@ -167,64 +168,3 @@
 
     }
 //end queueSize()
-
-
-
-/*  *********************************************
-    Tester function;  part of the user interface
-    and placed here for conveinience. I dont want 
-    to include the structure header in the test conde 
-    ************************************************* */
-    void testerFunction()
-    {
-        //printf("%d\n", sizeof(front[0]->l2PayLoad));
-        int choice, control, Q;
-        char waste;
-        struct l2Packet *deqdPakt;    
-        //feedInputQueues();
-
-    /*  ************************************
-        User interface for debugging queues.
-        ************************************ */
-        control = 1;
-        while(control)
-        {   
-            puts("Choose queue:");
-            puts("0 - inputQueueA");
-            puts("1 - inputQueueB");
-            puts("2 - inputQueueC");
-            puts("3 - inputQueueD");
-            puts("4 - inputQueueE");
-            scanf("%d", &Q);
-            waste = getchar();
-
-            printf("1 - Dequeue\n");
-            printf("2 - Queue Size\n");
-            printf("3 - Display queue\n");
-            printf("4 - stop and exit\n");
-            printf("Enter choice: \n");
-            scanf("%d", &choice);
-            waste = getchar();
-
-            switch (choice)
-            {
-            case 1:
-                deqdPakt = dequeue(Q);
-                break;
-            case 2:
-                printf("The queue has %d nodes.\n", queueSize(Q));
-                break;
-            case 3:
-                display(Q);
-                break;
-            case 4:
-                //I need to empty the queue on exit
-                control = 0;
-            default:
-                break;
-            }//end queue control switch statement
-
-        }//end queue control while loop
-    // end of debugging gui.
-    }
-//end testerFunction()
