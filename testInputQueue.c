@@ -20,7 +20,9 @@
 	************* */
   	void main()
   	{
-  	   
+  	 
+      enum inputQueues {inptQA, inptQB, inptQC, inptQD, inptQE, mainQ};
+
       /* **************************************************
          This piece of code sets the length of layer two's
          payload array.
@@ -47,8 +49,33 @@
       //end setting of layer two array length.
 
   	feedInputQueues();
-   	testerFunction();
-    //multiplexer();
+   	//testerFunction();
+    
+    puts("\n\nPackets in ecs501's input Queue A");
+    puts("------------------------------------");
+    display(inptQA);
+
+    puts("\n\nPackets in ecs501's input Queue B");
+    puts("------------------------------------");
+    display(inptQB);
+
+    puts("\n\nPackets in ecs501's input Queue C");
+    puts("------------------------------------");
+    display(inptQC);
+
+    puts("\n\nPackets in ecs501's input Queue D");
+    puts("------------------------------------");
+    display(inptQD);
+
+    puts("\n\nPackets in ecs501's input Queue E");
+    puts("------------------------------------");
+    display(inptQE);
+
+    puts("\n\nPackets in ecs501's main Queue");
+    puts("------------------------------------");
+    display(mainQ);
+
+
 
    }
 //end main()

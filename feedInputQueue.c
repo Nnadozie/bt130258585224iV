@@ -8,6 +8,7 @@
 	#include <stdio.h>
 	//#define DISPLAYQUEUES
 	#include "feedInputQueue.h"
+	#include <unistd.h>
 	//#define DEBUGEXTERN
 
    	int L2MAXLOAD;
@@ -22,7 +23,7 @@
 	/*	**********************************************************
 		Declaration of all variables used by this function
 		********************************************************** */
-		enum inputQueues {inptQA, inptQB, inptQC, inptQD, inptQE};
+		enum inputQueues {inptQA, inptQB, inptQC, inptQD, inptQE, mainQ};
 		
 		int l3DstAdrsLocation[2];
    		char layer2[32];
@@ -78,6 +79,9 @@
 			Get packets from .csv file and queue them in appropriate input queues.
 			Also check source address of packets for their validity.
 			********************************************************************* */
+			puts("\n\n--------------------------------------");
+			puts("INPUTING PACKETS AND MULTIPLEXING THEM");
+			puts("--------------------------------------\n");
 			while(feof(fptr) == 0)
 			{   		
 		   		csvPaktReader(layer2, l3DstAdrsLocation, fptr);
@@ -89,30 +93,36 @@
 			   		if(queueSize(inptQA) < inptQSize)
 			   		{
 			   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQA);
+			   			display(inptQA);
+			   			sleep(2);
 			   		}
 			   		break;
 			   	case 'B':
 			   		if(queueSize(inptQB) < inptQSize)
 			   		{
 			   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQB);
+			   			display(inptQB);
 			   		}
 			   		break;
 			   	case 'C':
 			   		if(queueSize(inptQC) < inptQSize)
 			   		{
 			   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQC);
+			   			display(inptQC);
 			   		}
 			   		break;
 			   	case 'D':
 			   		if(queueSize(inptQD) < inptQSize)
 			   		{
 			   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQD);
+			   			display(inptQD);
 			   		}
 			   		break;
 			   	case 'E':
 			   		if(queueSize(inptQE) < inptQSize)
 			   		{
 			   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQE);
+			   			display(inptQE);
 			   		}
 			   		break;
 			   	default:
@@ -120,8 +130,14 @@
 			   		break;
 			   	}//end switch
 
-			   	multiplexer(mainQSize);
+			multiplexer(mainQSize);
+			   	/*puts("__________");
+			   	puts("MAIN QUEUE");
+			   	puts("----------");
+			   	display(mainQ);
+			   	puts("_______________________");*/
 			}//end while loop
+
 		}//end ifelse statement
 		// finish getting packets.
 

@@ -96,13 +96,13 @@
                 front2[packDstQ] =  front2[packDstQ]->ptr;
                 front[packDstQ]->ptr = NULL;
                 deqdNode = front[packDstQ];
-                printf("Dequeued values: %c, %c, %s\n", front[packDstQ]->srcAdrs, front[packDstQ]->dstAdrs, front[packDstQ]->l2PayLoad);
+                //printf("Dequeued values: %c, %c, %s\n", front[packDstQ]->srcAdrs, front[packDstQ]->dstAdrs, front[packDstQ]->l2PayLoad);
                 front[packDstQ] = front2[packDstQ];
             }
             else
             {
                 deqdNode = front[packDstQ];
-                printf("Dequeued values: %c, %c, %s\n", front[packDstQ]->srcAdrs, front[packDstQ]->dstAdrs, front[packDstQ]->l2PayLoad);
+                //printf("Dequeued values: %c, %c, %s\n", front[packDstQ]->srcAdrs, front[packDstQ]->dstAdrs, front[packDstQ]->l2PayLoad);
                 front[packDstQ] = NULL;
                 rear[packDstQ] = NULL;
             }
