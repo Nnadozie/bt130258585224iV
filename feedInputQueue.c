@@ -58,7 +58,7 @@
 		scanf("%d", &mainQSize);
 		waste = getchar();
 
-		puts("Enter the name of file which contains packet information");
+		puts("Enter the name of file which contains packet information [current filename: file.csv]");
 		scanf("%s", filename);
 		waste = getchar();
 	//end user input collection

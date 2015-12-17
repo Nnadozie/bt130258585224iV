@@ -124,7 +124,7 @@
 
         if ((front2[packDstQ] == NULL) && (rear[packDstQ] == NULL))
         {
-            printf("Do nothing. Queue is empty\n");
+            printf("Error: cannot display empty queue\n");
             return;
         }
         while (front2[packDstQ] != rear[packDstQ])
