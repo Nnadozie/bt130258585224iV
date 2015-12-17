@@ -8,7 +8,7 @@
 	#include <stdio.h>
 	#include <string.h>
   #include <stdlib.h>
-  #include <externVariables.h>
+  #include "externVariables.h"
 	//#define DEBUG
 	//#define MAINDEBUG
 
@@ -48,6 +48,8 @@
 
   	feedInputQueues();
    	testerFunction();
+    multiplexer();
+
    }
 //end main()
 

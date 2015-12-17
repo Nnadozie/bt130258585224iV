@@ -83,6 +83,7 @@
 
     {
         struct l2Packet *deqdNode = NULL;
+        //deqdNode = malloc(sizeof(struct l2Packet) + L2MAXLOAD);
         front2[packDstQ] = front[packDstQ];
 
         if(front2[packDstQ] == NULL)
@@ -95,13 +96,13 @@
                 front2[packDstQ] =  front2[packDstQ]->ptr;
                 front[packDstQ]->ptr = NULL;
                 deqdNode = front[packDstQ];
-                printf("Dequeued values: %c, %c, %c\n", front[packDstQ]->srcAdrs, front[packDstQ]->dstAdrs, front[packDstQ]->l2PayLoad);
+                printf("Dequeued values: %c, %c, %s\n", front[packDstQ]->srcAdrs, front[packDstQ]->dstAdrs, front[packDstQ]->l2PayLoad);
                 front[packDstQ] = front2[packDstQ];
             }
             else
             {
                 deqdNode = front[packDstQ];
-                printf("Dequeued values: %c, %c, %c\n", front[packDstQ]->srcAdrs, front[packDstQ]->dstAdrs, front[packDstQ]->l2PayLoad);
+                printf("Dequeued values: %c, %c, %s\n", front[packDstQ]->srcAdrs, front[packDstQ]->dstAdrs, front[packDstQ]->l2PayLoad);
                 front[packDstQ] = NULL;
                 rear[packDstQ] = NULL;
             }
