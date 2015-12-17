@@ -8,7 +8,7 @@
 	#include <stdio.h>
 	#include <string.h>
   #include <stdlib.h>
-  #include <externVariables.h>
+  #include "externVariables.h"
 	//#define DEBUG
 	//#define MAINDEBUG
 
@@ -20,7 +20,9 @@
 	************* */
   	void main()
   	{
-  	   
+  	 
+      enum inputQueues {inptQA, inptQB, inptQC, inptQD, inptQE, mainQ};
+
       /* **************************************************
          This piece of code sets the length of layer two's
          payload array.
@@ -30,10 +32,10 @@
 
          while(out == 0)
          {
-            puts("Enter layer 2 pay load array length | Must not be > 30");
+            puts("Enter layer 2 pay load array length | Must not be < 4 or > 30");
             scanf("%d", &l2PayLoadLength);
 
-            if(l2PayLoadLength <= 30)
+            if(l2PayLoadLength >= 4 && l2PayLoadLength <= 30)
             {
                L2MAXLOAD = l2PayLoadLength;
                out = 1;
@@ -47,7 +49,34 @@
       //end setting of layer two array length.
 
   	feedInputQueues();
-   	testerFunction();
+   	//testerFunction();
+
+    puts("\n\nPackets in ecs501's input Queue A");
+    puts("------------------------------------");
+    display(inptQA);
+
+    puts("\n\nPackets in ecs501's input Queue B");
+    puts("------------------------------------");
+    display(inptQB);
+
+    puts("\n\nPackets in ecs501's input Queue C");
+    puts("------------------------------------");
+    display(inptQC);
+
+    puts("\n\nPackets in ecs501's input Queue D");
+    puts("------------------------------------");
+    display(inptQD);
+
+    puts("\n\nPackets in ecs501's input Queue E");
+    puts("------------------------------------");
+    display(inptQE);
+
+    puts("\n\nPackets in ecs501's main Queue");
+    puts("------------------------------------");
+    display(mainQ);
+
+
+
    }
 //end main()
 
@@ -78,6 +107,7 @@
             puts("2 - inputQueueC");
             puts("3 - inputQueueD");
             puts("4 - inputQueueE");
+            puts("5 - mainQueue");
             scanf("%d", &Q);
             waste = getchar();
 

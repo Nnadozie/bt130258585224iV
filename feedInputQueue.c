@@ -8,6 +8,7 @@
 	#include <stdio.h>
 	//#define DISPLAYQUEUES
 	#include "feedInputQueue.h"
+	#include <unistd.h>
 	//#define DEBUGEXTERN
 
    	int L2MAXLOAD;
@@ -22,7 +23,7 @@
 	/*	**********************************************************
 		Declaration of all variables used by this function
 		********************************************************** */
-		enum inputQueues {inptQA, inptQB, inptQC, inptQD, inptQE};
+		enum inputQueues {inptQA, inptQB, inptQC, inptQD, inptQE, mainQ};
 		
 		int l3DstAdrsLocation[2];
    		char layer2[32];
@@ -30,7 +31,7 @@
    		char filename[50];
    		char waste;
 		
-		int i, inptQSize;
+		int i, inptQSize, mainQSize;
 		int l2SrcAdrs;
 		FILE *fptr;
 	//end variable declaraton
@@ -47,13 +48,17 @@
 
 
 	/*	*****************************************************************************
-		Set the size of the input Queues, and get the csv filename.
+		Set the size of the input Queues and main queue, and get the csv filename.
 		***************************************************************************** */
 		puts("Enter size of input queues"); //make robust so only ints can be entered
 		scanf("%d", &inptQSize);
 		waste = getchar();
 
-		puts("Enter the name of file which contains packet information");
+		puts("Enter size of main queue"); //make robust so only ints can be entered
+		scanf("%d", &mainQSize);
+		waste = getchar();
+
+		puts("Enter the name of file which contains packet information [current filename: file.csv]");
 		scanf("%s", filename);
 		waste = getchar();
 	//end user input collection
@@ -74,6 +79,9 @@
 			Get packets from .csv file and queue them in appropriate input queues.
 			Also check source address of packets for their validity.
 			********************************************************************* */
+			puts("\n\n--------------------------------------");
+			puts("INPUTING PACKETS AND MULTIPLEXING THEM");
+			puts("--------------------------------------\n");
 			while(feof(fptr) == 0)
 			{   		
 		   		csvPaktReader(layer2, l3DstAdrsLocation, fptr);
@@ -85,30 +93,35 @@
 			   		if(queueSize(inptQA) < inptQSize)
 			   		{
 			   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQA);
+			   			progressReport(inptQA);
 			   		}
 			   		break;
 			   	case 'B':
 			   		if(queueSize(inptQB) < inptQSize)
 			   		{
 			   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQB);
+			   			progressReport(inptQB);
 			   		}
 			   		break;
 			   	case 'C':
 			   		if(queueSize(inptQC) < inptQSize)
 			   		{
 			   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQC);
+			   			progressReport(inptQC);
 			   		}
 			   		break;
 			   	case 'D':
 			   		if(queueSize(inptQD) < inptQSize)
 			   		{
 			   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQD);
+			   			progressReport(inptQD);
 			   		}
 			   		break;
 			   	case 'E':
 			   		if(queueSize(inptQE) < inptQSize)
 			   		{
 			   			enqueue(layer2[0], layer2[1], l2PayLoad, inptQE);
+			   			progressReport(inptQE);
 			   		}
 			   		break;
 			   	default:
@@ -116,7 +129,14 @@
 			   		break;
 			   	}//end switch
 
+			multiplexer(mainQSize);
+			   	/*puts("__________");
+			   	puts("MAIN QUEUE");
+			   	puts("----------");
+			   	display(mainQ);
+			   	puts("_______________________");*/
 			}//end while loop
+
 		}//end ifelse statement
 		// finish getting packets.
 
@@ -129,6 +149,25 @@
 
 	}
 //end feedInputQueues
+
+
+
+/*	************************************
+	progress report
+	************************************ */
+	void progressReport(int queue)
+	{
+		printf("\n\nPacket passing through input queue %d:\n", queue );
+		display(queue);
+		sleep(4);
+  	
+  		puts("______________________");
+		puts("Packets in main queue:");
+		puts("-----------------------");
+		display(5);
+		puts("-----------------------");
+		sleep(4);
+	}
 
 
 
