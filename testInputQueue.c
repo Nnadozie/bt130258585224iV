@@ -85,8 +85,8 @@
 
 /*  *********************************************
     Tester function;  part of the user interface
-    and placed here for conveinience. I dont want 
-    to include the structure header in the test conde 
+    and placed here for conveinience. This piece of
+    code is no longer used in this program. 
     ************************************************* */
     void testerFunction()
     {

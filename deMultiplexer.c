@@ -121,7 +121,6 @@
 
        		l3DstAdrs[0] = deqdPakt->l2PayLoad[2];
        		l3DstAdrs[1] = deqdPakt->l2PayLoad[3];
-       		//sscanf(l3DstAdrs, "%d", &dstAdrsL3);
           dstAdrsL3 = atoi(l3DstAdrs);
 
       	//end conversion
