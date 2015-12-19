@@ -6,4 +6,5 @@
    ****************************************************************************************************** */
 
 	extern int L2MAXLOAD;
-	extern int numOfChecksOf[5];
+	extern int numOfChecksOf[6];
+	//extern int dequedInputQ[5];

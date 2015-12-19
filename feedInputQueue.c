@@ -11,6 +11,7 @@
 	#include <unistd.h>
 	//#define DEBUGEXTERN
 	//#define DEBUGMULTIPLEX
+	//#define DEBUGDEMUL
 
    	int L2MAXLOAD; //value is assigned in main function, and needed here.
 
@@ -131,7 +132,12 @@
 			   	}//end switch
 
 				multiplexer(inptQSize, mainQSize);
-				//deMultiplexer(mainQSize);
+
+				#ifdef DEBUGDEMUL
+				puts("I got here in feedInputQueues");
+				#endif
+
+				deMultiplexer(mainQSize);
 
 			}//end while loop
 
@@ -168,7 +174,18 @@
 					display(4);
 					#endif
 
-					{ multiplexer(inptQSize, mainQSize);}
+					{ multiplexer(inptQSize, mainQSize);
+					  deMultiplexer(mainQSize);	
+					}
+				}
+
+
+			/*	****************************************************
+				Make sure that main queue is completely dequeued
+				**************************************************** */
+				while (queueSize(mainQ) > 0)
+				{
+					deMultiplexer(mainQSize);
 				}
 
 		}//end ifelse statement

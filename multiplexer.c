@@ -11,7 +11,7 @@
    #include "inputQueue.h"
    //#define DEBUGMULTIPLEX
 
-   int numOfChecksOf[5];
+   int numOfChecksOf[6];
 
 /*	****************************************************
 	Multiplexer function
