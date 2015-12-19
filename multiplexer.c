@@ -40,6 +40,7 @@
 		{
 			if(queueSize(inputQueue[i]) == inptQSize)
 			{
+				//numOfChecksOf[inputQueue[i]]++;
 				dequedInputQ = i;
 				break;
 			}

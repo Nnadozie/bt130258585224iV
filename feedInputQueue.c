@@ -146,7 +146,12 @@
 				while ( queueSize(inptQA) > 0 || queueSize(inptQB) > 0 || queueSize(inptQC) > 0 || 
 						queueSize(inptQD) > 0 || queueSize(inptQE) > 0)
 				{
-					multiplexer(inptQSize, mainQSize);
+					if (queueSize(mainQ) == mainQSize)
+					{
+						break;
+					}
+					else
+					{ multiplexer(inptQSize, mainQSize);}
 				}
 
 				//while ( queueSize(mainQ) > 0 )
@@ -176,14 +181,14 @@
 	{
 		printf("\n\nPacket passing through input queue %d:\n", queue );
 		display(queue);
-		sleep(2.4); //4
+		sleep(0.4); //4
   	
   		puts("______________________");
 		puts("Packets in main queue:");
 		puts("-----------------------");
 		display(5);
 		puts("-----------------------");
-		sleep(2.4); //4
+		sleep(0.4); //4
 	}
 
 
