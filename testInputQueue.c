@@ -32,10 +32,10 @@
 
          while(out == 0)
          {
-            puts("Enter layer 2 pay load array length | Must not be < 4 or > 30");
+            puts("Enter layer 2 pay load array length | Must not be < 5 or > 30");
             scanf("%d", &l2PayLoadLength);
 
-            if(l2PayLoadLength >= 4 && l2PayLoadLength <= 30)
+            if(l2PayLoadLength >= 5 && l2PayLoadLength <= 30)
             {
                L2MAXLOAD = l2PayLoadLength;
                out = 1;
@@ -49,6 +49,7 @@
       //end setting of layer two array length.
 
   	feedInputQueues();
+    //deMultiplexer();
    	//testerFunction();
 
     puts("\n\nPackets in ecs501's input Queue A");

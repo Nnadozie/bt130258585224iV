@@ -32,6 +32,7 @@
 		
 		int i, inptQSize, mainQSize;
 		int l2SrcAdrs;
+		//int numOfChecksOf[5];
 		FILE *fptr;
 	//end variable declaraton
 
@@ -128,13 +129,28 @@
 			   		break;
 			   	}//end switch
 
-			multiplexer(mainQSize);
+				multiplexer(inptQSize, mainQSize);
+
+				
 			   	/*puts("__________");
 			   	puts("MAIN QUEUE");
 			   	puts("----------");
 			   	display(mainQ);
 			   	puts("_______________________");*/
 			}//end while loop
+
+			/*	********************************************************************************************
+				Depending on the buffer size of the inputQueues i.e inptQsize - the demultiplexer is to wait 
+				until this buffer size is reached - not all inputQueues may have been emptied at this stage in the program
+				if they did not recieve enough packets to reach the buffer size specified, or they have not been
+				polled for the specified number of times. Therefore, the code below multiplexes until all input
+				queues have been emptied.
+				********************************************************************************************** */
+
+				while (queueSize(inptQA) > 0 || queueSize(inptQB) > 0 || queueSize(inptQC) > 0 || queueSize(inptQD) > 0 || queueSize(inptQE) > 0)
+				{
+					multiplexer(inptQSize, mainQSize);
+				}
 
 		}//end ifelse statement
 		// finish getting packets.
@@ -158,14 +174,14 @@
 	{
 		printf("\n\nPacket passing through input queue %d:\n", queue );
 		display(queue);
-		sleep(4);
+		sleep(2.4); //4
   	
   		puts("______________________");
 		puts("Packets in main queue:");
 		puts("-----------------------");
 		display(5);
 		puts("-----------------------");
-		sleep(4);
+		sleep(2.4); //4
 	}
 
 
