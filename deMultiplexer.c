@@ -23,13 +23,15 @@
 
 	
 	 #include <stdio.h>
-	 #include "inputQueue.h"
+	 #include "queues.h"
 	 #include <string.h>
 	 #include <stdlib.h>
+   #include <time.h>
   // #define DEBUGDEMUL
 
-  //int L2MAXLOAD;
+  extern int L3MAXLOAD;
   int numOfChecksOf[6];
+  //char lookUpTable[50];
 
    void deMultiplexer(int mainQSize)
    {
@@ -39,11 +41,14 @@
    		***************************************************** */
    		enum inputQueues { mainQ = 5, outPtQA, outPtQB, outPtQC, outPtQD, outPtQE };	
    		struct l2Packet *deqdPakt = NULL;
-   		int srcAdrsL3, dstAdrsL3, L3MAXLOAD, l2PayLoadLen,i;
+   		int srcAdrsL3, dstAdrsL3, l2PayLoadLen, i, l3LoadLen, rndmNum;
    		char l3SrcAdrs[3] = {'0','0','\0'};
    		char l3DstAdrs[3] = {'0','0', '\0'};
-   		char *l3Payload = NULL;
-   		FILE *fptr;
+     // char fullL3Load[];
+   		char l3Payload[L3MAXLOAD];
+      //char outputPkt[L3MAXLOAD + 3];
+      //outputPkt[L3MAXLOAD+2] = '\0';
+   		//FILE *fptr;
    	//end declaration
 
 
@@ -141,13 +146,18 @@
           puts(deqdPakt->l2PayLoad);
           #endif
 
-      		L3MAXLOAD = 25; //Max size = 25 //make global and initialize same time as L2MAXLOAD
-      		l3Payload = (char *) malloc(sizeof(char) * (L3MAXLOAD));
+      		//L3MAXLOAD = 25; //Max size = 25 //make global and initialize same time as L2MAXLOAD
+      		//l3Payload = (char *) malloc(sizeof(char) * (L3MAXLOAD));
+          l3LoadLen = l2PayLoadLen - 4;
+          char fullL3Load[l3LoadLen];
 
-      		for (i = 0; i <= l2PayLoadLen - 5; i++)
+      		for (i = 0; i < l3LoadLen; i++)
       		{
-      				l3Payload[i] = deqdPakt->l2PayLoad[i+5];
+            fullL3Load[i] = deqdPakt->l2PayLoad[i + 4];
       		}
+          
+          strcpy(l3Payload, fullL3Load);
+          l3Payload[L3MAXLOAD] = '\0';
       	//end extraction of payload*/
       //*******************END L3 PACKET EXTRACTION*************
         
@@ -155,9 +165,85 @@
           #ifdef DEBUGDEMUL
           puts("I got here in deMultiplexer, past payload extraction");
           printf("%s\n", deqdPakt->l2PayLoad);   
-          free(deqdPakt);
+          //free(deqdPakt);
           #endif
-          printf("Source address: %d | destination address: %d | %s\n", srcAdrsL3, dstAdrsL3, l3Payload);
+          //printf("Source address: %d | destination address: %d | %s\n", srcAdrsL3, dstAdrsL3, l3Payload);
+
+
+      /*  *****************************************************************
+          Final part of function. Enqueue packets onto correct output queue.
+          Use Original L2 payload in case user did not enter sufficient l3payload size
+          ***************************************************************** */
+          srand(time(NULL));
+          
+
+
+          switch(dstAdrsL3)
+          {
+          case 1:
+            enqueue('R','A', deqdPakt->l2PayLoad, outPtQA);
+            break;
+          case 2:
+            enqueue('R','A', deqdPakt->l2PayLoad, outPtQA);
+            break;
+          case 3:
+            enqueue('R','A', deqdPakt->l2PayLoad, outPtQA);
+            break;
+          case 4:
+            enqueue('R','B', deqdPakt->l2PayLoad, outPtQB);
+            break;
+          case 5:
+            enqueue('R','B', deqdPakt->l2PayLoad, outPtQB);
+            break;
+          case 6:
+            enqueue('R','B', deqdPakt->l2PayLoad, outPtQB);
+            break;
+          case 7:
+            rndmNum = 1 + (rand() % 2);
+            if (rndmNum == 1)
+            {
+            enqueue('R', 'C', deqdPakt->l2PayLoad, outPtQC);
+            }
+            else
+            {
+            enqueue('R', 'D', deqdPakt->l2PayLoad, outPtQD);
+            }
+            break;
+          case 8:
+            rndmNum = 1 + (rand() % 2);
+            if (rndmNum == 1)
+            {
+            enqueue('R', 'C', deqdPakt->l2PayLoad, outPtQC);
+            }
+            else
+            {
+            enqueue('R', 'D', deqdPakt->l2PayLoad, outPtQD);
+            }
+            break;
+          case 9:
+            rndmNum = 1 + (rand() % 2);
+            if (rndmNum == 1)
+            {
+            enqueue('R', 'C', deqdPakt->l2PayLoad, outPtQC);
+            }
+            else
+            {
+            enqueue('R', 'D', deqdPakt->l2PayLoad, outPtQD);
+            }
+            break;
+          case 10:
+            enqueue('R','D', deqdPakt->l2PayLoad, outPtQD);
+            break;
+          case 11:
+            enqueue('R','D', deqdPakt->l2PayLoad, outPtQD);
+            break;
+          case 12:
+            enqueue('R','D', deqdPakt->l2PayLoad, outPtQD);
+            break;
+          default:
+          {break;}
+            //puts("Oh boy, what a mistake you've made!");
+          }
 
       }
       else //if the dequeued packet was empty, return without doing anything.

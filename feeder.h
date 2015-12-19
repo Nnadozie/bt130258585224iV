@@ -1,12 +1,12 @@
 /* *******************************
    Author: Okeke Nnadozie
-   File Name: feedInputQueue.h
+   File Name: feeder.h
    ******************************************************************************************************
-   Function: feedInputQueue header file
+   Function: feeder header file
    ****************************************************************************************************** */
 
 
 	void csvPaktReader(char layer2[], FILE *fptr);
 	void l2PayLoadExtractor(char layer2[], char l2payload[]);
-	void feedInputQueues();
+	void feeder();
 	void progressReport(int queue);

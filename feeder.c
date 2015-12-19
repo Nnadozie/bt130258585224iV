@@ -1,25 +1,26 @@
 /* 	*******************************
    	Author: Okeke Nnadozie
-   	File Name: feedInputQueue.c
+   	File Name: feeder.c
    	******************************************************************************************************
    	Function: Contains the implementation for feedInputQueues
    	****************************************************************************************************** */
 	#include <string.h>
 	#include <stdio.h>
 	//#define DISPLAYQUEUES
-	#include "feedInputQueue.h"
+	#include "feeder.h"
 	#include <unistd.h>
 	//#define DEBUGEXTERN
 	//#define DEBUGMULTIPLEX
 	//#define DEBUGDEMUL
 
    	int L2MAXLOAD; //value is assigned in main function, and needed here.
+   	char lookUpTable[50];
 
 /*	****************************************************************
 	feedInputQueues reads in all valid packets from the example file
 	and queues all of them in their respective input queues.
 	**************************************************************** */
-	void feedInputQueues()
+	void feeder()
 	{
 	
 	/*	**********************************************************
@@ -63,6 +64,13 @@
 		puts("Enter the name of file which contains packet information [current filename: file.csv]");
 		scanf("%s", filename);
 		waste = getchar();
+
+		puts("wait for three seconds");
+
+		//puts("Enter the name of file which contains lookup information [current filename: lookup-table.csv]");
+		//scanf("%s", lookUpTable);
+		//waste = getchar();
+
 	//end user input collection
 
 
@@ -210,14 +218,14 @@
 	{
 		printf("\n\nPacket passing through input queue %d:\n", queue );
 		display(queue);
-		sleep(0.4); //4
+		sleep(3); //4
   	
   		puts("______________________");
 		puts("Packets in main queue:");
 		puts("-----------------------");
 		display(5);
 		puts("-----------------------");
-		sleep(0.4); //4
+		sleep(3); //4
 	}
 
 

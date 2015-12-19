@@ -8,7 +8,7 @@
    #include <stdlib.h>
    #include <stdio.h>
    #include "multiplexer.h"
-   #include "inputQueue.h"
+   #include "queues.h"
    //#define DEBUGMULTIPLEX
 
    int numOfChecksOf[6];
@@ -151,7 +151,7 @@
 		   		break;	
 
 		   	default:
-		   		puts("Error: Input Queue chosen does not exist or invalid option.");
+		   		//puts("Error: Input Queue chosen does not exist or invalid option.");
 		   		break;
 		 	}//end switch
    }
