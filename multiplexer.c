@@ -40,20 +40,20 @@
 		{
 			if(queueSize(inputQueue[i]) == inptQSize)
 			{
-				//numOfChecksOf[inputQueue[i]]++;
-				dequedInputQ = i;
+				dequedInputQ = inputQueue[i];
 				break;
 			}
-			else if(queueSize(inputQueue[i]) < inptQSize)
+			else if(queueSize(inputQueue[i]) < inptQSize && queueSize(inputQueue[i]) != 0 )
 			{
 				numOfChecksOf[inputQueue[i]]++;
 
 				#ifdef DEBUGMULTIPLEX
-				printf("%d\n", numOfChecksOf[i] );
+				printf("%d\n", numOfChecksOf[inputQueue[i]] );
 				#endif
 
 				if(numOfChecksOf[inputQueue[i]] == inptQSize)
 				{
+
 					dequedInputQ = inputQueue[i];
 					numOfChecksOf[inputQueue[i]] = 0;
 
@@ -69,6 +69,7 @@
         #ifdef DEBUGMULTIPLEX
         	puts("I got here too");
         #endif
+
 	/*	***********************************************
 		Dequeue the chosen input queue.
 		************************************************ */
@@ -78,11 +79,14 @@
 
 		   		if(queueSize(mainQ) < mainQSize)
 		   		{
+		   			if(queueSize(inptQA)>0)
+		   			{
 		   			deqdPakt = (struct l2Packet*) dequeue(inptQA);
 		   			if(deqdPakt == NULL)
 		   			{break;}
 		   			enqueue(deqdPakt->srcAdrs, deqdPakt->dstAdrs, deqdPakt->l2PayLoad, mainQ);
 		   			free(deqdPakt);
+		   			}
 		   		}
 		   		break;
 
@@ -90,11 +94,14 @@
 
 		   		if(queueSize(mainQ) < mainQSize)
 		   		{
+		   			if(queueSize(inptQB)>0)
+		   			{
 		   			deqdPakt = (struct l2Packet*) dequeue(inptQB);
 		   			if(deqdPakt == NULL)
 		   			{break;}
 		   			enqueue(deqdPakt->srcAdrs, deqdPakt->dstAdrs, deqdPakt->l2PayLoad, mainQ);
 		   			free(deqdPakt);
+		   			}
 			   	}
 		   		break;
 
@@ -102,11 +109,14 @@
 
 		   		if(queueSize(mainQ) < mainQSize)
 		   		{
+		   			if(queueSize(inptQC)>0)
+		   			{
 		   			deqdPakt = (struct l2Packet*) dequeue(inptQC);
 		   			if(deqdPakt == NULL)
 		   			{break;}
 		   			enqueue(deqdPakt->srcAdrs, deqdPakt->dstAdrs, deqdPakt->l2PayLoad, mainQ);
 		   			free(deqdPakt);
+		   			}
 		   		}
 		   		break;
 
@@ -114,11 +124,14 @@
 
 		   		if(queueSize(mainQ) < mainQSize)
 		   		{
+		   			if(queueSize(inptQD)>0)
+		   			{
 		   			deqdPakt = (struct l2Packet*) dequeue(inptQD);
 		   			if(deqdPakt == NULL)
 		   			{break;}
 		   			enqueue(deqdPakt->srcAdrs, deqdPakt->dstAdrs, deqdPakt->l2PayLoad, mainQ);
 		   			free(deqdPakt);
+		   			}
 		   		}
 		   		break;
 
@@ -126,11 +139,14 @@
 
 		   		if(queueSize(mainQ) < mainQ)
 		   		{
+		   			if(queueSize(inptQE)>0)
+		   			{
 		   			deqdPakt = (struct l2Packet*) dequeue(inptQE);
 		   			if(deqdPakt == NULL)
 		   			{break;}
 		   			enqueue(deqdPakt->srcAdrs, deqdPakt->dstAdrs, deqdPakt->l2PayLoad, mainQ);
-		   			free(deqdPakt);		
+		   			free(deqdPakt);
+		   			}		
 		   		}
 		   		break;	
 

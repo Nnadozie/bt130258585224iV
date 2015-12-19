@@ -10,6 +10,7 @@
 	#include "feedInputQueue.h"
 	#include <unistd.h>
 	//#define DEBUGEXTERN
+	//#define DEBUGMULTIPLEX
 
    	int L2MAXLOAD; //value is assigned in main function, and needed here.
 
@@ -140,7 +141,7 @@
 				until this buffer size is reached - not all inputQueues may have been emptied at this stage in
 				the program if they did not recieve enough packets to reach the buffer size specified, or they have
 				not been polled for the specified number of times. Therefore, the code below multiplexes until 
-				all input	queues have been emptied.
+				all input queues have been emptied.
 				********************************************************************************************** */
 
 				while ( queueSize(inptQA) > 0 || queueSize(inptQB) > 0 || queueSize(inptQC) > 0 || 
@@ -150,13 +151,24 @@
 					{
 						break;
 					}
-					else
-					{ multiplexer(inptQSize, mainQSize);}
-				}
 
-				//while ( queueSize(mainQ) > 0 )
-				{
-					//deMultiplexer(mainQSize);
+					else
+						if ( queueSize(inptQA) == 0 && queueSize(inptQB) == 0 && queueSize(inptQC) == 0 && 
+							 queueSize(inptQD) == 0 && queueSize(inptQE) == 0)
+						{
+							break;
+						}
+					else
+
+					#ifdef DEBUGMULTIPLEX
+					display(0);
+					display(1);
+					display(2);
+					display(3);
+					display(4);
+					#endif
+
+					{ multiplexer(inptQSize, mainQSize);}
 				}
 
 		}//end ifelse statement
