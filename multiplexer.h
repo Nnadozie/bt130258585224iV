@@ -5,4 +5,4 @@
    Function: header file for multiplexer.
    ****************************************************************************************************** */
 
-   void multiplexer(int mainQSize);
+   void multiplexer(int inptQSize, int mainQSize);

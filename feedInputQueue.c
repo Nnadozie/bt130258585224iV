@@ -25,7 +25,6 @@
 		********************************************************** */
 		enum inputQueues {inptQA, inptQB, inptQC, inptQD, inptQE, mainQ};
 		
-		int l3DstAdrsLocation[2];
    		char layer2[32];
    		char l2PayLoad[L2MAXLOAD];
    		char filename[50];
@@ -33,6 +32,7 @@
 		
 		int i, inptQSize, mainQSize;
 		int l2SrcAdrs;
+		//int numOfChecksOf[5];
 		FILE *fptr;
 	//end variable declaraton
 
@@ -84,7 +84,7 @@
 			puts("--------------------------------------\n");
 			while(feof(fptr) == 0)
 			{   		
-		   		csvPaktReader(layer2, l3DstAdrsLocation, fptr);
+		   		csvPaktReader(layer2, fptr);
 		   		l2PayLoadExtractor(layer2, l2PayLoad);
 
 		   		switch (layer2[0])
@@ -129,13 +129,28 @@
 			   		break;
 			   	}//end switch
 
-			multiplexer(mainQSize);
+				multiplexer(inptQSize, mainQSize);
+
+				
 			   	/*puts("__________");
 			   	puts("MAIN QUEUE");
 			   	puts("----------");
 			   	display(mainQ);
 			   	puts("_______________________");*/
 			}//end while loop
+
+			/*	********************************************************************************************
+				Depending on the buffer size of the inputQueues i.e inptQsize - the demultiplexer is to wait 
+				until this buffer size is reached - not all inputQueues may have been emptied at this stage in the program
+				if they did not recieve enough packets to reach the buffer size specified, or they have not been
+				polled for the specified number of times. Therefore, the code below multiplexes until all input
+				queues have been emptied.
+				********************************************************************************************** */
+
+				while (queueSize(inptQA) > 0 || queueSize(inptQB) > 0 || queueSize(inptQC) > 0 || queueSize(inptQD) > 0 || queueSize(inptQE) > 0)
+				{
+					multiplexer(inptQSize, mainQSize);
+				}
 
 		}//end ifelse statement
 		// finish getting packets.
@@ -159,14 +174,14 @@
 	{
 		printf("\n\nPacket passing through input queue %d:\n", queue );
 		display(queue);
-		sleep(4);
+		sleep(2.4); //4
   	
   		puts("______________________");
 		puts("Packets in main queue:");
 		puts("-----------------------");
 		display(5);
 		puts("-----------------------");
-		sleep(4);
+		sleep(2.4); //4
 	}
 
 
@@ -174,13 +189,14 @@
 /*	**************************************************************************
 	csvPaktReaderis used for reading in layer 2 packets from the example file.
 	************************************************************************** */
-	void csvPaktReader(char layer2[], int l3DstAdrsLocation[], FILE *fptr)
+	void csvPaktReader(char layer2[], FILE *fptr)
 	{
 		char inputLine[42];
 		fgets(inputLine, 42, fptr);
 						
 		int k = 0;
 		int j = 0;
+		int comma = 0;
 		int space = 0;
 		int front = 0;
 		int back = 0;
@@ -189,13 +205,42 @@
 		{
 			if (inputLine[j] == ',')
 			{
+				comma = comma + 1;
+				if(comma == 3)
+				{
+					if(inputLine[j - 2] != ' ')
+					{
+						layer2[2] = inputLine[j - 2];
+					}
+					else
+					{
+						layer2[2] = ' ';
+					}
+
+					layer2[3] = inputLine[j-1];
+					k = 4;
+				}
+				if(comma == 4)
+				{
+					if(inputLine[j - 2] != ' ')
+					{
+						layer2[4] = inputLine[j - 2];
+					}
+					else
+					{
+						layer2[4] = ' ';
+					}
+
+					layer2[5] = inputLine[j-1];
+					k = 6;
+				}
 				continue;
 			}
 			else 
 				if (inputLine[j] == ' ')
 				{
 
-					space = space + 1;
+				/*	space = space + 1;
 		
 					if (space == 3)
 					{
@@ -204,23 +249,20 @@
 					if (space == 4)
 					{
 						back = k;
-					}
+					}*/
 					continue;	//PUTTING A CONTINUE IS CRITICAL
 
 					}
 			else
 			{
 				layer2[k] = inputLine[j];
+				k++;
 			}
 
-			k++;
+			//k++;
 		}
 
 		layer2[k] = '\0';  //DOING THIS IS CRITICAL
-
-		l3DstAdrsLocation[0] = front;
-		l3DstAdrsLocation[1] = back;
-		//return l3DstAdrsLocation;
 
 		#ifdef DEBUG
 			puts(inputLine);
