@@ -22,7 +22,7 @@
    		Declaration of all of multiplexer's variables
    		**************************************************************** */
    		enum inputQueues {inptQA, inptQB, inptQC, inptQD, inptQE, mainQ};
-   		//int inputQueue[5] = {inptQA, inptQB, inptQC, inptQD, inptQE}; //for ease of understanding for loop
+   		int inputQueue[5] = {inptQA, inptQB, inptQC, inptQD, inptQE}; //for ease of understanding for loop
    		int dequedInputQ, loopControl, i;
    		char waste;
         struct l2Packet *deqdPakt;
@@ -38,125 +38,31 @@
     	******************************************************** */
 		for (i = 0; i < inptQE; i++)
 		{
-			if(queueSize(i) == inptQSize)
+			if(queueSize(inputQueue[i]) == inptQSize)
 			{
 				dequedInputQ = i;
 				break;
 			}
-			else if(queueSize(i) < inptQSize)
+			else if(queueSize(inputQueue[i]) < inptQSize)
 			{
-				numOfChecksOf[i]++;
+				numOfChecksOf[inputQueue[i]]++;
 
 				#ifdef DEBUGMULTIPLEX
 				printf("%d\n", numOfChecksOf[i] );
 				#endif
 
-				if(numOfChecksOf[i] == inptQSize)
+				if(numOfChecksOf[inputQueue[i]] == inptQSize)
 				{
-					dequedInputQ = i;
-					numOfChecksOf[i] = 0;
+					dequedInputQ = inputQueue[i];
+					numOfChecksOf[inputQueue[i]] = 0;
 
 					#ifdef DEBUGMULTIPLEX
         				puts("I got in this if");
         			#endif
         			break;
 				}
-				else
-				{ //return;
-				}
-				//break;
-
 			}
 		}
-
-		/*	else if(queueSize(inptQB) == inptQSize)
-			{
-				dequedInputQ = inptQB;
-				//break;
-			}
-			else if(queueSize(inptQB) < inptQSize)
-			{
-				numOfChecksOf[inptQB]++;
-
-				if(numOfChecksOf[inptQB] == inptQSize)
-				{
-					dequedInputQ = inptQB;
-					numOfChecksOf[inptQB] = 0;
-				}
-				else
-				{ return; };
-			}
-
-			else if(queueSize(inptQC) == inptQSize)
-			{
-				dequedInputQ = inptQC;
-				//break;
-			}
-			else if(queueSize(inptQC) < inptQSize)
-			{
-				numOfChecksOf[inptQC]++;
-
-				if(numOfChecksOf[inptQC] == inptQSize)
-				{
-					dequedInputQ = inptQC;
-					numOfChecksOf[inptQC] = 0;
-				}
-				else
-				{ return; };
-			}
-
-			else if(queueSize(inptQD) == inptQSize)
-			{
-				dequedInputQ = inptQD;
-				//break;
-			}
-			else if(queueSize(inptQD) < inptQSize)
-			{
-				numOfChecksOf[inptQD]++;
-
-				if(numOfChecksOf[inptQD] == inptQSize)
-				{
-					dequedInputQ = inptQD;
-					numOfChecksOf[inptQD] = 0;
-				}
-				else
-				{ return; }
-			}
-
-			else if(queueSize(inptQE) == inptQSize)
-			{
-				dequedInputQ = inptQE;
-				//break;
-			}
-			else if(queueSize(inptQE) < inptQSize)
-			{
-				numOfChecksOf[inptQE]++;
-
-				if(numOfChecksOf[inptQE] == inptQSize)
-				{
-					dequedInputQ = inptQE;
-					numOfChecksOf[inptQE] = 0;
-				}
-				else
-				{ return; }
-			}*/
-		
-		
-
-
-
-			/*else if(queueSize(inptQB) > 0)
-			{dequedInputQ = inptQB;}
-
-			else if(queueSize(inptQC) > 0)
-			{dequedInputQ = inptQC;}
-
-			else if(queueSize(inptQD) > 0)
-			{dequedInputQ = inptQD;}
-
-			else if(queueSize(inptQE) > 0)
-			{dequedInputQ = inptQE;}*/
-
 	//end choosing
 
         #ifdef DEBUGMULTIPLEX

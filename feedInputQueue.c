@@ -11,7 +11,7 @@
 	#include <unistd.h>
 	//#define DEBUGEXTERN
 
-   	int L2MAXLOAD;
+   	int L2MAXLOAD; //value is assigned in main function, and needed here.
 
 /*	****************************************************************
 	feedInputQueues reads in all valid packets from the example file
@@ -130,26 +130,28 @@
 			   	}//end switch
 
 				multiplexer(inptQSize, mainQSize);
+				//deMultiplexer(mainQSize);
 
-				
-			   	/*puts("__________");
-			   	puts("MAIN QUEUE");
-			   	puts("----------");
-			   	display(mainQ);
-			   	puts("_______________________");*/
 			}//end while loop
+
 
 			/*	********************************************************************************************
 				Depending on the buffer size of the inputQueues i.e inptQsize - the demultiplexer is to wait 
-				until this buffer size is reached - not all inputQueues may have been emptied at this stage in the program
-				if they did not recieve enough packets to reach the buffer size specified, or they have not been
-				polled for the specified number of times. Therefore, the code below multiplexes until all input
-				queues have been emptied.
+				until this buffer size is reached - not all inputQueues may have been emptied at this stage in
+				the program if they did not recieve enough packets to reach the buffer size specified, or they have
+				not been polled for the specified number of times. Therefore, the code below multiplexes until 
+				all input	queues have been emptied.
 				********************************************************************************************** */
 
-				while (queueSize(inptQA) > 0 || queueSize(inptQB) > 0 || queueSize(inptQC) > 0 || queueSize(inptQD) > 0 || queueSize(inptQE) > 0)
+				while ( queueSize(inptQA) > 0 || queueSize(inptQB) > 0 || queueSize(inptQC) > 0 || 
+						queueSize(inptQD) > 0 || queueSize(inptQE) > 0)
 				{
 					multiplexer(inptQSize, mainQSize);
+				}
+
+				//while ( queueSize(mainQ) > 0 )
+				{
+					//deMultiplexer(mainQSize);
 				}
 
 		}//end ifelse statement
