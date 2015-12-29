@@ -1,15 +1,15 @@
 /* *******************************
    Author: Okeke Nnadozie
-   Function Name: inputQueue
+   Function Name: queues
    ******************************************************************************************************
-   Function: inputQueue contains the implementation of the input queues to the router, which need to have
+   Function: queues contains the implementation of the input queues to the router, which need to have
    a configurable maximum length, and be capable of storing the defined packets.
    ****************************************************************************************************** */
 
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
-    #include "inputQueue.h"
+    #include "queues.h"
     //#define L2MAXLOAD 30
 /*  #define NUMOFQUEUES 11: I tried to use this to set the no. of queues - 
     currently set at 11 in the inputQueue.h headerfile by setting all the struct

@@ -6,4 +6,7 @@
    ****************************************************************************************************** */
 
 	extern int L2MAXLOAD;
-	extern int numOfChecksOf[5];
+	extern int L3MAXLOAD;
+	extern int numOfChecksOf[6];
+	//extern char lookUpTable[50];
+	//extern int dequedInputQ[5];

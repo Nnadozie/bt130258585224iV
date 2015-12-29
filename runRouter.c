@@ -1,8 +1,8 @@
 /* *******************************
    Author: Okeke Nnadozie
-   Function Name: testInputQueue
+   Function Name: runRouter
    ******************************************************************************************************
-   Function: testInputQueues is used to test the functionality of inputQueue
+   Function: runRouter runs the whole program
    ****************************************************************************************************** */
 
 	#include <stdio.h>
@@ -14,28 +14,32 @@
 
 
 
-	void testerFunction(); 
+	//void testerFunction(); 
+   int L2MAXLOAD;
+   int L3MAXLOAD;
 /*	*************
    MAIN FUNCTION
 	************* */
   	void main()
   	{
   	 
-      enum inputQueues {inptQA, inptQB, inptQC, inptQD, inptQE, mainQ};
+      enum inputQueues {inptQA, inptQB, inptQC, inptQD, inptQE, mainQ, outPtQA, outPtQB, outPtQC, outPtQD, outPtQE };
 
       /* **************************************************
          This piece of code sets the length of layer two's
          payload array.
          ************************************************** */
          int l2PayLoadLength;
+         int l3PayLoadLength;
          int out = 0;
+         int out1 = 0;
 
          while(out == 0)
          {
             puts("Enter layer 2 pay load array length | Must not be < 5 or > 30");
             scanf("%d", &l2PayLoadLength);
 
-            if(l2PayLoadLength >= 5 && l2PayLoadLength <= 30)
+            if(l2PayLoadLength >= 4 && l2PayLoadLength <= 30)
             {
                L2MAXLOAD = l2PayLoadLength;
                out = 1;
@@ -45,10 +49,26 @@
                out = 0;
             }
          }
+
+         while(out1 == 0)
+         {
+            puts("Enter layer 3 pay load array length | Must not be > 28");
+            scanf("%d", &l3PayLoadLength);
+
+            if(l3PayLoadLength <= 28 && l3PayLoadLength > -1)
+            {
+               L3MAXLOAD = l3PayLoadLength;
+               out1 = 1;
+            }
+            else
+            {
+               out1 = 0;
+            }
+         }
           
       //end setting of layer two array length.
 
-  	feedInputQueues();
+  	feeder();
     //deMultiplexer();
    	//testerFunction();
 
@@ -76,6 +96,26 @@
     puts("------------------------------------");
     display(mainQ);
 
+    puts("\n\nPackets in ecs501's output Queue A");
+    puts("------------------------------------");
+    display(outPtQA);
+
+    puts("\n\nPackets in ecs501's output Queue B");
+    puts("------------------------------------");
+    display(outPtQB);
+
+    puts("\n\nPackets in ecs501's output Queue C");
+    puts("------------------------------------");
+    display(outPtQC);
+
+    puts("\n\nPackets in ecs501's output Queue D");
+    puts("------------------------------------");
+    display(outPtQD);
+
+    puts("\n\nPackets in ecs501's output Queue E");
+    puts("------------------------------------");
+    display(outPtQE);
+
 
 
    }
@@ -85,8 +125,8 @@
 
 /*  *********************************************
     Tester function;  part of the user interface
-    and placed here for conveinience. I dont want 
-    to include the structure header in the test conde 
+    and placed here for conveinience. This piece of
+    code is no longer used in this program. 
     ************************************************* */
     void testerFunction()
     {
